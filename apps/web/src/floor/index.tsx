@@ -14,13 +14,20 @@ import {
   SURFACE,
   WIRE,
 } from '../theme/tokens.js';
-import { Card } from './card.js';
+import { CARD_W, Card } from './card.js';
 
 const BAND_LABEL: Record<Band, string> = {
   input: 'INPUT CHANNELS',
   'always-on': 'ALWAYS ON',
   ephemeral: 'SPUN UP ON DEMAND',
 };
+
+/**
+ * The floor is as wide as its content, so a wrapping flex row would never wrap. Columns are
+ * capped instead, and two cards plus a gap is what fits the pane at the default zoom.
+ */
+const MAX_COLUMNS = 2;
+const GAP = 14;
 
 const MIN_SCALE = 0.4;
 const MAX_SCALE = 1.8;
@@ -48,16 +55,25 @@ const controlButton: React.CSSProperties = {
 
 /** The run of wire from the input channels down into the control plane. */
 function Routing(): React.ReactElement {
+  const centre = CARD_W / 2;
+  const span = CARD_W + GAP;
   return (
-    <div style={{ position: 'relative', height: 44, marginLeft: 143 }} aria-hidden="true">
+    <div style={{ position: 'relative', height: 44, marginLeft: centre }} aria-hidden="true">
       <div
         style={{ position: 'absolute', left: 0, top: 0, width: 1, height: 18, background: WIRE }}
       />
       <div
-        style={{ position: 'absolute', left: 324, top: 0, width: 1, height: 18, background: WIRE }}
+        style={{ position: 'absolute', left: span, top: 0, width: 1, height: 18, background: WIRE }}
       />
       <div
-        style={{ position: 'absolute', left: 0, top: 18, width: 325, height: 1, background: WIRE }}
+        style={{
+          position: 'absolute',
+          left: 0,
+          top: 18,
+          width: span + 1,
+          height: 1,
+          background: WIRE,
+        }}
       />
       <div
         style={{ position: 'absolute', left: 0, top: 18, width: 1, height: 20, background: WIRE }}
@@ -101,9 +117,9 @@ function BandRow({
       </div>
       <div
         style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: 14,
+          display: 'grid',
+          gridTemplateColumns: `repeat(${Math.min(entities.length, MAX_COLUMNS)}, ${CARD_W}px)`,
+          gap: GAP,
           padding: ephemeral ? 14 : 0,
           border: ephemeral ? `1px dashed #D3DAE3` : 'none',
           borderRadius: ephemeral ? RADIUS.zone : 0,

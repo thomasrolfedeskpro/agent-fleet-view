@@ -20,6 +20,8 @@ import { Glyph, Hand } from './glyph.js';
 
 export type Pair = { lead: Entity; partner?: Entity };
 
+export const CARD_W = 452;
+
 const dot = (color: string, size = 7): React.CSSProperties => ({
   width: size,
   height: size,
@@ -135,7 +137,7 @@ export function Card({
   return (
     <section
       style={{
-        width: 452,
+        width: CARD_W,
         padding: 14,
         borderRadius: RADIUS.card,
         background: untrusted ? 'rgba(254,246,231,0.5)' : SURFACE,
