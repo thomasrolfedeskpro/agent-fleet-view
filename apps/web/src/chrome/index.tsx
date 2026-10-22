@@ -1,10 +1,11 @@
 import { SURFACE } from '../theme/tokens.js';
 import './chrome.css';
-import { DetailPanel } from './detail.js';
+import { DetailDialog } from './detailDialog.js';
 import { FilterPanel } from './filter.js';
 import { EntityList } from './list.js';
 
-export { DetailPanel } from './detail.js';
+export { Detail } from './detail.js';
+export { DetailDialog } from './detailDialog.js';
 export { FilterPanel } from './filter.js';
 export { FreshnessReadout, formatAge, useFreshness } from './freshness.js';
 export { EntityList, listRows, useListRows } from './list.js';
@@ -18,7 +19,7 @@ export function Chrome(): React.ReactElement {
         <FilterPanel />
       </div>
       <EntityList />
-      <DetailPanel />
+      <DetailDialog />
     </div>
   );
 }

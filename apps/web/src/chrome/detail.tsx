@@ -1,6 +1,5 @@
 import type { Entity } from '@fleet/schema';
 import { Glyph, Hand } from '../floor/glyph.js';
-import { byId, useStore } from '../store/index.js';
 import {
   ATTENTION_EDGE,
   ATTENTION_INK,
@@ -14,7 +13,7 @@ import {
   STATUS_TINT,
   SURFACE,
 } from '../theme/tokens.js';
-import { dot, pill, section, sectionTitle } from './styles.js';
+import { dot, pill } from './styles.js';
 
 const rowStyle: React.CSSProperties = { display: 'flex', gap: 8, padding: '3px 0' };
 const keyStyle: React.CSSProperties = { color: QUIET, width: 52, flex: '0 0 auto' };
@@ -73,7 +72,7 @@ function Banner({ entity }: { entity: Entity }): React.ReactElement | null {
  * Identifiers only. Whatever an entity is doing, this panel names it and points at the tool
  * that owns it — it never carries log lines, prompts, tool output or report text.
  */
-function Detail({ entity }: { entity: Entity }): React.ReactElement {
+export function Detail({ entity }: { entity: Entity }): React.ReactElement {
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -162,26 +161,5 @@ function Detail({ entity }: { entity: Entity }): React.ReactElement {
         </ul>
       )}
     </>
-  );
-}
-
-export function DetailPanel(): React.ReactElement {
-  const entity = useStore((s) => byId(s, s.selectedId));
-
-  return (
-    <section
-      data-testid="detail"
-      data-entity={entity?.id ?? ''}
-      style={{ ...section, borderBottom: 'none', background: SURFACE }}
-    >
-      <h2 style={sectionTitle}>Selected</h2>
-      {entity ? (
-        <Detail entity={entity} />
-      ) : (
-        <p style={{ margin: 0, color: QUIET }}>
-          Nothing selected. Pick a row above, or something on the floor.
-        </p>
-      )}
-    </section>
   );
 }

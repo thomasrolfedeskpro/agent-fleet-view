@@ -232,10 +232,50 @@ describe('list', () => {
 });
 
 describe('detail panel', () => {
-  test('shows nothing selected until something is', () => {
+  test('stays shut until something is selected', () => {
     store.onSnapshot(snapshot);
     mounted = mount();
-    expect(find(mounted.root, 'detail').dataset.entity).toBe('');
+    expect(mounted.root.querySelector('[data-testid="detail"]')).toBeNull();
+
+    act(() => store.select('tess'));
+    expect(find(mounted.root, 'detail').dataset.entity).toBe('tess');
+  });
+
+  test('escape on the dialog closes it', () => {
+    store.onSnapshot(snapshot);
+    mounted = mount();
+
+    act(() => store.select('tess'));
+    press(find(mounted.root, 'detail'), 'Escape');
+    expect(store.getState().selectedId).toBeNull();
+  });
+
+  test('the backdrop closes it, the panel does not', () => {
+    store.onSnapshot(snapshot);
+    mounted = mount();
+    const root = mounted.root;
+
+    act(() => store.select('tess'));
+    const panel = find(root, 'detail');
+    const backdrop = find(root, 'detail-backdrop');
+
+    act(() => panel.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    expect(store.getState().selectedId).toBe('tess');
+
+    act(() => backdrop.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    expect(store.getState().selectedId).toBeNull();
+  });
+
+  test('related jumps the selection to a neighbour', () => {
+    store.onSnapshot(snapshot);
+    mounted = mount();
+
+    act(() => store.select('tess'));
+    const jump = find(mounted.root, 'detail').querySelector('button.chrome-link');
+    expect(jump?.textContent).toContain('runs in');
+
+    act(() => jump?.dispatchEvent(new MouseEvent('click', { bubbles: true })));
+    expect(store.getState().selectedId).toBe('cp');
   });
 
   test('shows identifiers, badges and the hand', () => {
