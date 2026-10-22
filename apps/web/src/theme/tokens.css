@@ -1,0 +1,32 @@
+:root {
+  --ink: #1a1d21;
+  --quiet: #6b7480;
+  --line: #d7dce2;
+  --surface: #ffffff;
+  --floor: #f6f7f9;
+  --attention: #e08a1e;
+  --status-initializing: #2f6fed;
+  --status-working: #1f9d55;
+  --status-idle: #9aa3ad;
+  --status-error: #d64545;
+  --radius: 8px;
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font);
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--floor);
+}

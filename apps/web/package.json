@@ -1,0 +1,27 @@
+{
+  "name": "@fleet/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b",
+    "preview": "vite preview",
+    "test": "vitest run --passWithNoTests",
+    "bundle": "vite build"
+  },
+  "dependencies": {
+    "@fleet/layout": "workspace:*",
+    "@fleet/schema": "workspace:*",
+    "pixi.js": "^8.6.6",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "jsdom": "^26.0.0",
+    "vite": "^8.0.12"
+  }
+}

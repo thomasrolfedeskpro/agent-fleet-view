@@ -1,0 +1,91 @@
+{
+  "id": "scenario-01",
+  "title": "A VDP report through Tess, Vera and Jim",
+  "beats": [
+    {
+      "at": 0,
+      "note": "Quiet floor"
+    },
+    {
+      "at": 5,
+      "note": "A report arrives"
+    },
+    {
+      "at": 10,
+      "note": "Tess starts up"
+    },
+    {
+      "at": 14,
+      "note": "Tess triages VDP-88"
+    },
+    {
+      "at": 25,
+      "note": "Tess needs approval"
+    },
+    {
+      "at": 32,
+      "note": "Approved"
+    },
+    {
+      "at": 38,
+      "note": "Isolated instance requested"
+    },
+    {
+      "at": 44,
+      "note": "Vera pair comes up"
+    },
+    {
+      "at": 50,
+      "note": "Vera reproduces"
+    },
+    {
+      "at": 70,
+      "note": "Findings returned"
+    },
+    {
+      "at": 74,
+      "note": "Isolated instance destroyed"
+    },
+    {
+      "at": 78,
+      "note": "Back to Tess"
+    },
+    {
+      "at": 84,
+      "note": "Cloud instance requested"
+    },
+    {
+      "at": 90,
+      "note": "Dev host building"
+    },
+    {
+      "at": 96,
+      "note": "Dev host ready"
+    },
+    {
+      "at": 100,
+      "note": "First pair"
+    },
+    {
+      "at": 108,
+      "note": "Jim works on PDEV-537"
+    },
+    {
+      "at": 118,
+      "note": "A second pair on the same host"
+    },
+    {
+      "at": 130,
+      "note": "Jim 1 fails"
+    },
+    {
+      "at": 150,
+      "note": "Second pair torn down"
+    },
+    {
+      "at": 160,
+      "note": "Hold"
+    }
+  ],
+  "count": 21
+}

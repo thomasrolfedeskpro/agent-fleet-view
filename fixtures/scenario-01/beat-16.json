@@ -1,0 +1,151 @@
+{
+  "v": 1,
+  "seq": 16,
+  "sentAt": "2026-01-01T00:01:48.000Z",
+  "scenarioId": "scenario-01",
+  "beat": 16,
+  "elapsedMs": 108000,
+  "entities": [
+    {
+      "parentId": null,
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": true,
+      "pairWith": null,
+      "links": [
+        {
+          "label": "Admin",
+          "href": "https://example.internal/control-plane"
+        }
+      ],
+      "id": "cp",
+      "kind": "infrastructure",
+      "type": "control-plane",
+      "label": "Control plane",
+      "status": "working"
+    },
+    {
+      "parentId": null,
+      "badges": [],
+      "hand": false,
+      "count": 0,
+      "persistent": true,
+      "pairWith": null,
+      "links": [
+        {
+          "label": "VDP queue",
+          "href": "https://example.internal/vdp"
+        }
+      ],
+      "id": "vdp",
+      "kind": "source",
+      "type": "vdp",
+      "label": "VDP intake",
+      "status": "idle"
+    },
+    {
+      "parentId": null,
+      "badges": [],
+      "hand": false,
+      "count": 0,
+      "persistent": true,
+      "pairWith": null,
+      "links": [
+        {
+          "label": "Triage view",
+          "href": "https://linear.app/deskpro"
+        }
+      ],
+      "id": "linear",
+      "kind": "source",
+      "type": "linear",
+      "label": "Linear",
+      "status": "idle"
+    },
+    {
+      "parentId": "cp",
+      "badges": [
+        "handover"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": null,
+      "links": [],
+      "id": "tess",
+      "kind": "agent",
+      "type": "tess",
+      "label": "Tess · VDP-88",
+      "status": "working"
+    },
+    {
+      "parentId": null,
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": null,
+      "links": [
+        {
+          "label": "AWS console",
+          "href": "https://console.aws.amazon.com/ec2"
+        }
+      ],
+      "id": "ec2-1",
+      "kind": "infrastructure",
+      "type": "ec2",
+      "label": "Cloud instance · ec2",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-1",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": null,
+      "links": [],
+      "id": "dev-host-1",
+      "kind": "runtime",
+      "type": "dev-host",
+      "label": "Dev host",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-1",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-1",
+      "links": [],
+      "id": "sandbox-1",
+      "kind": "runtime",
+      "type": "sandbox",
+      "label": "sandbox · master",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-1",
+      "badges": [
+        "fix"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-1",
+      "links": [
+        {
+          "label": "Linear PDEV-537",
+          "href": "https://linear.app/deskpro/issue/PDEV-537"
+        }
+      ],
+      "id": "jim-1",
+      "kind": "agent",
+      "type": "jim",
+      "label": "Jim · PDEV-537",
+      "status": "working"
+    }
+  ]
+}

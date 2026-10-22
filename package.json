@@ -1,0 +1,26 @@
+{
+  "name": "agent-fleet-view",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@10.34.6",
+  "scripts": {
+    "build": "tsc -b && pnpm --filter @fleet/web exec vite build",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "test": "vitest run",
+    "check": "pnpm run build && pnpm run lint && pnpm run test",
+    "fixtures": "tsx scripts/gen-fixtures.ts",
+    "dev": "concurrently -n server,web -c cyan,magenta \"pnpm --filter @fleet/server run dev\" \"pnpm --filter @fleet/web run dev\""
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.15",
+    "@types/node": "^24.12.3",
+    "concurrently": "^9.1.2",
+    "tsx": "^4.19.2",
+    "typescript": "~6.0.2",
+    "vitest": "^4.1.8"
+  }
+}

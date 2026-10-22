@@ -1,0 +1,81 @@
+{
+  "v": 1,
+  "seq": 2,
+  "sentAt": "2026-01-01T00:00:10.000Z",
+  "scenarioId": "scenario-01",
+  "beat": 2,
+  "elapsedMs": 10000,
+  "entities": [
+    {
+      "parentId": null,
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": true,
+      "pairWith": null,
+      "links": [
+        {
+          "label": "Admin",
+          "href": "https://example.internal/control-plane"
+        }
+      ],
+      "id": "cp",
+      "kind": "infrastructure",
+      "type": "control-plane",
+      "label": "Control plane",
+      "status": "working"
+    },
+    {
+      "parentId": null,
+      "badges": [],
+      "hand": false,
+      "count": 1,
+      "persistent": true,
+      "pairWith": null,
+      "links": [
+        {
+          "label": "VDP queue",
+          "href": "https://example.internal/vdp"
+        }
+      ],
+      "id": "vdp",
+      "kind": "source",
+      "type": "vdp",
+      "label": "VDP intake",
+      "status": "working"
+    },
+    {
+      "parentId": null,
+      "badges": [],
+      "hand": false,
+      "count": 0,
+      "persistent": true,
+      "pairWith": null,
+      "links": [
+        {
+          "label": "Triage view",
+          "href": "https://linear.app/deskpro"
+        }
+      ],
+      "id": "linear",
+      "kind": "source",
+      "type": "linear",
+      "label": "Linear",
+      "status": "idle"
+    },
+    {
+      "parentId": "cp",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": null,
+      "links": [],
+      "id": "tess",
+      "kind": "agent",
+      "type": "tess",
+      "label": "Tess",
+      "status": "initializing"
+    }
+  ]
+}
