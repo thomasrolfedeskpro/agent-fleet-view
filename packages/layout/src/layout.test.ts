@@ -18,6 +18,8 @@ import {
 function entity(part: Partial<Entity> & { id: string }): Entity {
   return Entity.parse({
     kind: 'runtime',
+    glyph: 'box',
+    meta: '',
     type: 'sandbox',
     parentId: null,
     label: part.id,

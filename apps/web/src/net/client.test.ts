@@ -65,6 +65,8 @@ const snapshot = {
     {
       id: 'cp',
       kind: 'infrastructure',
+      glyph: 'rack',
+      meta: '',
       type: 'control-plane',
       parentId: null,
       label: 'Control plane',

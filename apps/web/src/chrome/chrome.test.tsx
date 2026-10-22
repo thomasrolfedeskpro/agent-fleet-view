@@ -27,6 +27,8 @@ const snapshot = Snapshot.parse({
     {
       id: 'cp',
       kind: 'infrastructure',
+      glyph: 'rack',
+      meta: '',
       type: 'control-plane',
       parentId: null,
       label: 'Control plane',
@@ -37,6 +39,8 @@ const snapshot = Snapshot.parse({
     {
       id: 'vdp',
       kind: 'source',
+      glyph: 'tray',
+      meta: '',
       type: 'vdp',
       parentId: null,
       label: 'VDP intake',
@@ -46,6 +50,8 @@ const snapshot = Snapshot.parse({
     {
       id: 'tess',
       kind: 'agent',
+      glyph: 'agent',
+      meta: '',
       type: 'tess',
       parentId: 'cp',
       label: 'Tess · VDP-88',
@@ -55,6 +61,8 @@ const snapshot = Snapshot.parse({
     {
       id: 'jim',
       kind: 'agent',
+      glyph: 'agent',
+      meta: '',
       type: 'jim',
       parentId: 'cp',
       label: 'Jim · VDP-88',
@@ -174,48 +182,24 @@ describe('freshness', () => {
 });
 
 describe('list', () => {
-  test('lists what the current view shows and selects on click', () => {
+  test('lists the whole floor and selects on click', () => {
     store.onSnapshot(snapshot);
     mounted = mount();
 
-    expect(mounted.root.querySelectorAll('[data-testid^="row-"]')).toHaveLength(2);
+    // One level: the list is everything, not just the things at the top of a tree.
+    expect(mounted.root.querySelectorAll('[data-testid^="row-"]')).toHaveLength(
+      snapshot.entities.length,
+    );
 
     click(find(mounted.root, 'row-vdp'));
     expect(store.getState().selectedId).toBe('vdp');
     expect(find(mounted.root, 'row-vdp').getAttribute('aria-pressed')).toBe('true');
   });
 
-  test('follows a selection made outside the list', () => {
-    store.onSnapshot(snapshot);
-    mounted = mount();
-
-    act(() => store.select('cp'));
-    expect(find(mounted.root, 'row-cp').getAttribute('aria-pressed')).toBe('true');
-    expect(find(mounted.root, 'row-vdp').getAttribute('aria-pressed')).toBe('false');
-  });
-
-  test('drills into a container and back out through the breadcrumb', () => {
-    store.onSnapshot(snapshot);
-    mounted = mount();
-
-    click(find(mounted.root, 'enter-cp'));
-    expect(store.getState().view).toEqual({ mode: 'inside', containerId: 'cp' });
-    expect(find(mounted.root, 'breadcrumb').textContent).toContain('Control plane');
-    expect(mounted.root.querySelectorAll('[data-testid^="row-"]')).toHaveLength(2);
-
-    click(find(mounted.root, 'row-jim'));
-    expect(store.getState().selectedId).toBe('jim');
-
-    click(find(mounted.root, 'breadcrumb-up'));
-    expect(store.getState().view).toEqual({ mode: 'overview' });
-    expect(store.getState().selectedId).toBeNull();
-  });
-
   test('marks a raised hand on the row', () => {
     store.onSnapshot(snapshot);
     mounted = mount();
 
-    act(() => store.setView({ mode: 'inside', containerId: 'cp' }));
     expect(mounted.root.querySelector('[data-testid="hand-jim"]')).not.toBeNull();
     expect(mounted.root.querySelector('[data-testid="hand-tess"]')).toBeNull();
   });

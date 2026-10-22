@@ -1,14 +1,14 @@
 import type { ClientCommand, Hello, Snapshot } from '@fleet/schema';
 import { TICK_MS } from '@fleet/schema';
 import { useSyncExternalStore } from 'react';
-import type { Connection, Sender, Source, State, View } from './types.js';
+import type { Connection, Filter, Sender, Source, State } from './types.js';
 
 const initial: State = {
   connection: 'connecting',
   snapshot: null,
   receivedAt: null,
   hello: null,
-  view: { mode: 'overview' },
+  filter: { text: '', needsPerson: false },
   selectedId: null,
   speed: 1,
   running: false,
@@ -54,8 +54,8 @@ export const store = {
   select(selectedId: string | null): void {
     set({ selectedId });
   },
-  setView(view: View): void {
-    set({ view, selectedId: null });
+  setFilter(filter: Filter): void {
+    set({ filter });
   },
   setSource(source: Source): void {
     set({ source });

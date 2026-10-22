@@ -1,10 +1,8 @@
 import { LINE } from '../theme/tokens.js';
-import { Breadcrumb } from './breadcrumb.js';
 import { DetailPanel } from './detail.js';
 import { FreshnessReadout } from './freshness.js';
 import { EntityList } from './list.js';
 
-export { Breadcrumb } from './breadcrumb.js';
 export { DetailPanel } from './detail.js';
 export { FreshnessReadout, formatAge, useFreshness } from './freshness.js';
 export { EntityList } from './list.js';
@@ -23,9 +21,7 @@ export function Chrome(): React.ReactElement {
           padding: '10px 16px',
           borderBottom: `1px solid ${LINE}`,
         }}
-      >
-        <Breadcrumb />
-      </header>
+      ></header>
       <EntityList />
       <DetailPanel />
     </div>

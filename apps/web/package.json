@@ -13,7 +13,6 @@
   "dependencies": {
     "@fleet/layout": "workspace:*",
     "@fleet/schema": "workspace:*",
-    "pixi.js": "^8.6.6",
     "react": "^19.2.6",
     "react-dom": "^19.2.6"
   },

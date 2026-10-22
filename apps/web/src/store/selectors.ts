@@ -1,5 +1,6 @@
-import type { Entity, Snapshot } from '@fleet/schema';
-import type { State } from './types.js';
+import type { Band, Entity, Snapshot } from '@fleet/schema';
+import { bandOf } from '@fleet/schema';
+import type { Filter, State } from './types.js';
 
 export type Counts = {
   working: number;
@@ -50,6 +51,15 @@ export const childrenOf = (s: State, parentId: string): Entity[] =>
 export const handInside = (s: State, parentId: string): boolean =>
   childrenOf(s, parentId).some((e) => e.hand);
 
+/** Top-level things in one band, in declaration order, which is also spawn order. */
+export const inBand = (s: State, band: Band): Entity[] =>
+  cached(
+    s.snapshot,
+    `band:${band}`,
+    () => topLevel(s).filter((e) => bandOf(e) === band),
+    NO_ENTITIES,
+  );
+
 const NO_COUNTS: Counts = { working: 0, idle: 0, initializing: 0, error: 0, hands: 0 };
 
 export const counts = (s: State): Counts =>
@@ -69,6 +79,22 @@ export const counts = (s: State): Counts =>
     NO_COUNTS,
   );
 
-/** Entities the floor draws right now, given the current view. */
-export const visible = (s: State): Entity[] =>
-  s.view.mode === 'overview' ? topLevel(s) : childrenOf(s, s.view.containerId);
+export const isFiltering = (filter: Filter): boolean =>
+  filter.text.trim().length > 0 || filter.needsPerson;
+
+/** Matching is on identifiers and state, never on anything a producer could put content in. */
+export function matches(entity: Entity, filter: Filter): boolean {
+  if (filter.needsPerson && !entity.hand) return false;
+  const text = filter.text.trim().toLowerCase();
+  if (!text) return true;
+  return (
+    entity.id.toLowerCase().includes(text) ||
+    entity.label.toLowerCase().includes(text) ||
+    entity.type.toLowerCase().includes(text) ||
+    entity.status.includes(text)
+  );
+}
+
+/** Everything the filter picks out, parents included, in declaration order. */
+export const filtered = (s: State): Entity[] =>
+  isFiltering(s.filter) ? entities(s).filter((e) => matches(e, s.filter)) : entities(s);

@@ -1,13 +1,13 @@
 import type { Entity } from '@fleet/schema';
 import { useMemo } from 'react';
-import { childrenOf, store, useStore, visible } from '../store/index.js';
+import { filtered, store, useStore } from '../store/index.js';
 import { ATTENTION, QUIET, STATUS_COLOR } from '../theme/tokens.js';
 import { dot, pill, resetButton, section, sectionTitle } from './styles.js';
 
-type Row = { entity: Entity; inside: number };
+type Row = { entity: Entity };
 
 function RowItem({ row, selected }: { row: Row; selected: boolean }): React.ReactElement {
-  const { entity, inside } = row;
+  const { entity } = row;
 
   return (
     <li
@@ -49,37 +49,24 @@ function RowItem({ row, selected }: { row: Row; selected: boolean }): React.Reac
         ) : null}
         {entity.count === null ? null : <span style={pill}>{entity.count}</span>}
       </button>
-      {inside > 0 ? (
-        <button
-          type="button"
-          data-testid={`enter-${entity.id}`}
-          onClick={() => store.setView({ mode: 'inside', containerId: entity.id })}
-          style={{ ...resetButton, ...pill, cursor: 'pointer' }}
-        >
-          inside {inside}
-        </button>
-      ) : null}
     </li>
   );
 }
 
 export function EntityList(): React.ReactElement {
   const snapshot = useStore((s) => s.snapshot);
-  const view = useStore((s) => s.view);
+  const filter = useStore((s) => s.filter);
   const selectedId = useStore((s) => s.selectedId);
 
-  /** `visible` builds a new array per call, so it is derived from the two inputs that move it. */
-  const rows = useMemo<Row[]>(() => {
-    const state = { ...store.getState(), snapshot, view };
-    return visible(state).map((entity) => ({
-      entity,
-      inside: childrenOf(state, entity.id).length,
-    }));
-  }, [snapshot, view]);
+  /** `filtered` builds a new array per call, so it is derived from the two inputs that move it. */
+  const rows = useMemo<Row[]>(
+    () => filtered({ ...store.getState(), snapshot, filter }).map((entity) => ({ entity })),
+    [snapshot, filter],
+  );
 
   return (
     <section data-testid="list" style={{ ...section, flex: '1 1 auto', minHeight: 0 }}>
-      <h2 style={sectionTitle}>In view · {rows.length}</h2>
+      <h2 style={sectionTitle}>On the floor · {rows.length}</h2>
       {rows.length === 0 ? (
         <p style={{ margin: 0, color: QUIET }}>Nothing here.</p>
       ) : (

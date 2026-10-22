@@ -1,140 +1,269 @@
-import { useEffect, useRef, useState } from 'react';
-import { ATTENTION, INK, LINE, QUIET, STATUS_COLOR, SURFACE } from '../theme/tokens.js';
-import { createStage, type Hovered, type Stage } from './stage.js';
+import type { Band, Entity } from '@fleet/schema';
+import { useCallback, useRef, useState } from 'react';
+import { childrenOf, filtered, inBand, isFiltering, store, useStore } from '../store/index.js';
+import {
+  DOTS,
+  FAINT,
+  FLOOR,
+  INK,
+  LINE,
+  MUTED,
+  QUIET,
+  RADIUS,
+  SHADOW,
+  SURFACE,
+  WIRE,
+} from '../theme/tokens.js';
+import { Card } from './card.js';
 
-const host: React.CSSProperties = {
-  position: 'relative',
-  width: '100%',
-  height: '100%',
-  overflow: 'hidden',
-  background: 'var(--floor)',
+const BAND_LABEL: Record<Band, string> = {
+  input: 'INPUT CHANNELS',
+  'always-on': 'ALWAYS ON',
+  ephemeral: 'SPUN UP ON DEMAND',
 };
 
-const canvasHost: React.CSSProperties = { position: 'absolute', inset: 0 };
+const MIN_SCALE = 0.4;
+const MAX_SCALE = 1.8;
+const ZOOM_STEP = 1.2;
 
-const controlBar: React.CSSProperties = {
-  position: 'absolute',
-  right: 16,
-  bottom: 16,
-  display: 'flex',
-  gap: 4,
-  padding: 4,
-  background: SURFACE,
-  border: `1px solid ${LINE}`,
-  borderRadius: 10,
-  boxShadow: '0 1px 3px rgba(16, 24, 40, 0.08)',
+const label: React.CSSProperties = {
+  color: MUTED,
+  fontSize: 11,
+  fontWeight: 600,
+  letterSpacing: '0.06em',
 };
 
 const controlButton: React.CSSProperties = {
-  width: 28,
-  height: 28,
+  width: 30,
+  height: 30,
   display: 'grid',
   placeItems: 'center',
   border: 'none',
-  borderRadius: 6,
+  borderRadius: 7,
   background: 'transparent',
-  color: INK,
-  font: 'inherit',
-  fontSize: 14,
+  color: '#49566A',
+  fontSize: 16,
   cursor: 'pointer',
 };
 
-/** Kept clear of the pointer so the card never covers the thing it describes. */
-const CARD_OFFSET = 14;
-
-function HoverCard({ hovered }: { hovered: Hovered }): React.ReactElement {
-  const { cell, x, y } = hovered;
+/** The run of wire from the input channels down into the control plane. */
+function Routing(): React.ReactElement {
   return (
-    <div
-      data-testid="hover-card"
-      style={{
-        position: 'absolute',
-        left: x + CARD_OFFSET,
-        top: y + CARD_OFFSET,
-        maxWidth: 260,
-        padding: '8px 10px',
-        background: SURFACE,
-        border: `1px solid ${LINE}`,
-        borderRadius: 8,
-        boxShadow: '0 4px 12px rgba(16, 24, 40, 0.12)',
-        pointerEvents: 'none',
-        zIndex: 2,
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 600 }}>
-        <span
-          style={{
-            width: 7,
-            height: 7,
-            borderRadius: 999,
-            background: STATUS_COLOR[cell.status],
-          }}
-        />
-        <span>{cell.label}</span>
-        {cell.hand ? <span style={{ color: ATTENTION }}>✋</span> : null}
-      </div>
-      <div style={{ color: QUIET, marginTop: 2 }}>
-        {cell.status}
-        {cell.count === null ? '' : ` · ${cell.count} queued`}
-        {cell.badges.length > 0 ? ` · ${cell.badges.join(', ')}` : ''}
-      </div>
-      {cell.container ? (
-        <div style={{ color: QUIET, marginTop: 4 }}>
-          {cell.handInside ? 'Something inside needs a person · ' : ''}click to open
-        </div>
-      ) : null}
+    <div style={{ position: 'relative', height: 44, marginLeft: 143 }} aria-hidden="true">
+      <div
+        style={{ position: 'absolute', left: 0, top: 0, width: 1, height: 18, background: WIRE }}
+      />
+      <div
+        style={{ position: 'absolute', left: 324, top: 0, width: 1, height: 18, background: WIRE }}
+      />
+      <div
+        style={{ position: 'absolute', left: 0, top: 18, width: 325, height: 1, background: WIRE }}
+      />
+      <div
+        style={{ position: 'absolute', left: 0, top: 18, width: 1, height: 20, background: WIRE }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          left: -4,
+          top: 34,
+          width: 9,
+          height: 9,
+          borderRadius: RADIUS.pill,
+          background: '#C5CEDA',
+        }}
+      />
     </div>
   );
 }
 
-/**
- * Mounts the canvas once. Everything that changes with a snapshot is handled by the Pixi layer,
- * which subscribes to the store itself — the only React state here is the hover card, which
- * moves with the pointer rather than with the data.
- */
-export function Floor(): React.ReactElement {
-  const mount = useRef<HTMLDivElement>(null);
-  const stage = useRef<Stage | null>(null);
-  const [hovered, setHovered] = useState<Hovered | null>(null);
-
-  useEffect(() => {
-    const element = mount.current;
-    if (!element) return;
-    const created = createStage(element);
-    stage.current = created;
-    created.onHover(setHovered);
-    return () => {
-      stage.current = null;
-      created.destroy();
-    };
-  }, []);
+function BandRow({
+  band,
+  entities,
+  selectedId,
+  childrenFor,
+}: {
+  band: Band;
+  entities: Entity[];
+  selectedId: string | null;
+  childrenFor: (id: string) => Entity[];
+}): React.ReactElement | null {
+  if (entities.length === 0) return null;
+  const ephemeral = band === 'ephemeral';
 
   return (
-    <div style={host}>
-      <div ref={mount} style={canvasHost} />
-      {hovered ? <HoverCard hovered={hovered} /> : null}
-      <div style={controlBar}>
+    <section style={{ marginBottom: 18 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 9 }}>
+        <span style={label}>{BAND_LABEL[band]}</span>
+        {ephemeral ? (
+          <span style={{ color: FAINT, fontSize: 11 }}>comes and goes with the work</span>
+        ) : null}
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: 14,
+          padding: ephemeral ? 14 : 0,
+          border: ephemeral ? `1px dashed #D3DAE3` : 'none',
+          borderRadius: ephemeral ? RADIUS.zone : 0,
+          background: ephemeral ? 'rgba(255,255,255,0.42)' : 'transparent',
+        }}
+      >
+        {entities.map((entity) => (
+          <Card
+            key={entity.id}
+            entity={entity}
+            contents={childrenFor(entity.id)}
+            selectedId={selectedId}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/**
+ * One level. Everything on the floor is drawn at once, grouped into bands that fall out of what
+ * each thing is, and finding something is filtering rather than navigating into it.
+ */
+export function Floor(): React.ReactElement {
+  const inputs = useStore((s) => inBand(s, 'input'));
+  const alwaysOn = useStore((s) => inBand(s, 'always-on'));
+  const ephemeral = useStore((s) => inBand(s, 'ephemeral'));
+  const selectedId = useStore((s) => s.selectedId);
+  const filter = useStore((s) => s.filter);
+  const snapshot = useStore((s) => s.snapshot);
+
+  const [scale, setScale] = useState(1);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const drag = useRef<{ x: number; y: number } | null>(null);
+
+  const narrowing = isFiltering(filter);
+  const keep = new Set(
+    narrowing && snapshot ? filtered({ ...store.getState(), snapshot }).map((e) => e.id) : [],
+  );
+
+  // A card survives a filter if it matches, or if anything inside it does.
+  const childrenFor = useCallback(
+    (id: string): Entity[] => {
+      const all = childrenOf(store.getState(), id);
+      return narrowing ? all.filter((c) => keep.has(c.id)) : all;
+    },
+    [narrowing, keep],
+  );
+  const survives = (entity: Entity): boolean =>
+    !narrowing || keep.has(entity.id) || childrenFor(entity.id).length > 0;
+
+  const onPointerDown = (event: React.PointerEvent): void => {
+    if (event.button !== 0) return;
+    drag.current = { x: event.clientX - offset.x, y: event.clientY - offset.y };
+  };
+  const onPointerMove = (event: React.PointerEvent): void => {
+    if (!drag.current) return;
+    setOffset({ x: event.clientX - drag.current.x, y: event.clientY - drag.current.y });
+  };
+  const endDrag = (): void => {
+    drag.current = null;
+  };
+  const zoom = (factor: number): void =>
+    setScale((s) => Math.min(MAX_SCALE, Math.max(MIN_SCALE, s * factor)));
+  const reset = (): void => {
+    setScale(1);
+    setOffset({ x: 0, y: 0 });
+  };
+
+  return (
+    <div
+      style={{
+        position: 'relative',
+        height: '100%',
+        overflow: 'hidden',
+        background: FLOOR,
+        backgroundImage: `radial-gradient(${DOTS} 1px, transparent 1px)`,
+        backgroundSize: '22px 22px',
+      }}
+    >
+      <div
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={endDrag}
+        onPointerLeave={endDrag}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          overflow: 'auto',
+          cursor: drag.current ? 'grabbing' : 'default',
+        }}
+      >
+        <div
+          style={{
+            padding: '26px 44px 80px',
+            width: 'max-content',
+            minWidth: '100%',
+            transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})`,
+            transformOrigin: '0 0',
+          }}
+        >
+          <BandRow
+            band="input"
+            entities={inputs.filter(survives)}
+            selectedId={selectedId}
+            childrenFor={childrenFor}
+          />
+          {inputs.length > 0 && alwaysOn.length > 0 && !narrowing ? <Routing /> : null}
+          <BandRow
+            band="always-on"
+            entities={alwaysOn.filter(survives)}
+            selectedId={selectedId}
+            childrenFor={childrenFor}
+          />
+          <BandRow
+            band="ephemeral"
+            entities={ephemeral.filter(survives)}
+            selectedId={selectedId}
+            childrenFor={childrenFor}
+          />
+          {narrowing && [...inputs, ...alwaysOn, ...ephemeral].filter(survives).length === 0 ? (
+            <p style={{ color: QUIET }}>Nothing on the floor matches that.</p>
+          ) : null}
+        </div>
+      </div>
+
+      <div
+        style={{
+          position: 'absolute',
+          right: 20,
+          bottom: 20,
+          display: 'flex',
+          gap: 2,
+          padding: 4,
+          background: SURFACE,
+          border: `1px solid ${LINE}`,
+          borderRadius: 10,
+          boxShadow: SHADOW.raised,
+        }}
+      >
         <button
           type="button"
-          style={controlButton}
           aria-label="Zoom out"
-          onClick={() => stage.current?.zoomOut()}
+          style={controlButton}
+          onClick={() => zoom(1 / ZOOM_STEP)}
         >
           −
         </button>
         <button
           type="button"
-          style={controlButton}
           aria-label="Zoom in"
-          onClick={() => stage.current?.zoomIn()}
+          style={controlButton}
+          onClick={() => zoom(ZOOM_STEP)}
         >
           +
         </button>
         <button
           type="button"
-          style={{ ...controlButton, width: 'auto', padding: '0 10px', fontSize: 12 }}
-          aria-label="Fit to view"
-          onClick={() => stage.current?.fitView()}
+          style={{ ...controlButton, width: 'auto', padding: '0 11px', fontSize: 12, color: INK }}
+          onClick={reset}
         >
           Fit
         </button>

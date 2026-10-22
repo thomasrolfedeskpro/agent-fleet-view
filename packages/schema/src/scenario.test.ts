@@ -7,6 +7,8 @@ import { Snapshot } from './wire.js';
 const base = Entity.parse({
   id: 'a',
   kind: 'runtime',
+  glyph: 'box',
+  meta: '',
   type: 'sandbox',
   parentId: null,
   label: 'a',

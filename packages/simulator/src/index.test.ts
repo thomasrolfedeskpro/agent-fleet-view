@@ -130,9 +130,10 @@ describe('createSimulator', () => {
     const sim = createSimulator(scenario01);
     sim.jumpToBeat(18);
     expect(sim.snapshot(0).entities.map((e) => e.id)).toEqual([
-      'cp',
       'vdp',
       'linear',
+      'cp',
+      'gateway',
       'tess',
       'ec2-1',
       'dev-host-1',
@@ -154,9 +155,10 @@ describe('createSimulator', () => {
 
   it('hands out a fresh entity array each snapshot', () => {
     const sim = createSimulator(scenario01);
+    const before = sim.snapshot(0).entities.length;
     const first = sim.snapshot(0).entities;
     first.length = 0;
-    expect(sim.snapshot(1).entities).toHaveLength(3);
+    expect(sim.snapshot(1).entities).toHaveLength(before);
   });
 
   it('runs a scenario whose first beat is after zero', () => {

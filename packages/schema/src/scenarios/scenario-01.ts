@@ -1,10 +1,11 @@
 import type { Entity } from '../entity.js';
 import type { Scenario } from '../scenario.js';
 
-type Seed = Pick<Entity, 'id' | 'kind' | 'type' | 'label' | 'status'> & Partial<Entity>;
+type Seed = Pick<Entity, 'id' | 'kind' | 'type' | 'glyph' | 'label' | 'status'> & Partial<Entity>;
 
 const ent = (e: Seed): Entity => ({
   parentId: null,
+  meta: '',
   badges: [],
   hand: false,
   count: null,
@@ -35,22 +36,12 @@ export const scenario01: Scenario = {
         {
           op: 'add',
           entity: ent({
-            id: 'cp',
-            kind: 'infrastructure',
-            type: 'control-plane',
-            label: 'Control plane',
-            status: 'working',
-            persistent: true,
-            links: [{ label: 'Admin', href: 'https://example.internal/control-plane' }],
-          }),
-        },
-        {
-          op: 'add',
-          entity: ent({
             id: 'vdp',
             kind: 'source',
             type: 'vdp',
+            glyph: 'tray',
             label: 'VDP intake',
+            meta: 'security reports',
             status: 'idle',
             persistent: true,
             count: 0,
@@ -63,11 +54,40 @@ export const scenario01: Scenario = {
             id: 'linear',
             kind: 'source',
             type: 'linear',
+            glyph: 'tray',
             label: 'Linear',
+            meta: 'assigned stories',
             status: 'idle',
             persistent: true,
             count: 0,
             links: [{ label: 'Triage view', href: 'https://linear.app/deskpro' }],
+          }),
+        },
+        {
+          op: 'add',
+          entity: ent({
+            id: 'cp',
+            kind: 'infrastructure',
+            type: 'control-plane',
+            glyph: 'hub',
+            label: 'Control plane',
+            meta: 'queues · schedules · records',
+            status: 'working',
+            persistent: true,
+            links: [{ label: 'Admin', href: 'https://example.internal/control-plane' }],
+          }),
+        },
+        {
+          op: 'add',
+          entity: ent({
+            id: 'gateway',
+            kind: 'infrastructure',
+            type: 'model-gateway',
+            glyph: 'gateway',
+            label: 'Model gateway',
+            meta: 'bedrock · the only way out',
+            status: 'working',
+            persistent: true,
           }),
         },
       ],
@@ -87,6 +107,7 @@ export const scenario01: Scenario = {
             id: 'tess',
             kind: 'agent',
             type: 'tess',
+            glyph: 'agent',
             label: 'Tess',
             status: 'initializing',
             parentId: 'cp',
@@ -101,7 +122,7 @@ export const scenario01: Scenario = {
         {
           op: 'patch',
           id: 'tess',
-          set: { status: 'working', label: 'Tess · VDP-88', badges: ['triage'] },
+          set: { status: 'working', label: 'Tess · VDP-88', meta: 'triage', badges: ['triage'] },
         },
       ],
     },
@@ -112,7 +133,12 @@ export const scenario01: Scenario = {
         {
           op: 'patch',
           id: 'tess',
-          set: { status: 'idle', hand: true, badges: ['triage', 'waiting'] },
+          set: {
+            status: 'idle',
+            hand: true,
+            meta: 'waiting for approval',
+            badges: ['triage', 'waiting'],
+          },
         },
       ],
     },
@@ -120,7 +146,11 @@ export const scenario01: Scenario = {
       at: 32,
       note: 'Approved',
       ops: [
-        { op: 'patch', id: 'tess', set: { status: 'working', hand: false, badges: ['triage'] } },
+        {
+          op: 'patch',
+          id: 'tess',
+          set: { status: 'working', hand: false, meta: 'triage', badges: ['triage'] },
+        },
       ],
     },
     {
@@ -133,7 +163,9 @@ export const scenario01: Scenario = {
             id: 'vera-inst',
             kind: 'infrastructure',
             type: 'isolated-instance',
-            label: 'Untrusted zone · VDP-88',
+            glyph: 'shield',
+            label: 'Untrusted zone',
+            meta: 'one locked-down instance per finding',
             status: 'initializing',
           }),
         },
@@ -150,7 +182,8 @@ export const scenario01: Scenario = {
             id: 'vera-app',
             kind: 'runtime',
             type: 'app-instance',
-            label: 'App instance',
+            glyph: 'box',
+            label: 'app · VDP-88',
             status: 'initializing',
             parentId: 'vera-inst',
             pairWith: 'vera',
@@ -162,6 +195,7 @@ export const scenario01: Scenario = {
             id: 'vera',
             kind: 'agent',
             type: 'vera',
+            glyph: 'agent',
             label: 'Vera · VDP-88',
             status: 'initializing',
             parentId: 'vera-inst',
@@ -175,13 +209,13 @@ export const scenario01: Scenario = {
       note: 'Vera reproduces',
       ops: [
         { op: 'patch', id: 'vera-app', set: { status: 'working' } },
-        { op: 'patch', id: 'vera', set: { status: 'working', badges: ['reproducing'] } },
+        { op: 'patch', id: 'vera', set: { status: 'working', meta: 'reproducing' } },
       ],
     },
     {
       at: 70,
       note: 'Findings returned',
-      ops: [{ op: 'patch', id: 'vera', set: { status: 'idle', badges: ['findings returned'] } }],
+      ops: [{ op: 'patch', id: 'vera', set: { status: 'idle', meta: 'findings returned' } }],
     },
     {
       at: 74,
@@ -197,7 +231,7 @@ export const scenario01: Scenario = {
       note: 'Back to Tess',
       ops: [
         { op: 'patch', id: 'vdp', set: { count: 0, status: 'idle' } },
-        { op: 'patch', id: 'tess', set: { badges: ['handover'] } },
+        { op: 'patch', id: 'tess', set: { meta: 'handover', badges: ['handover'] } },
       ],
     },
     {
@@ -210,7 +244,9 @@ export const scenario01: Scenario = {
             id: 'ec2-1',
             kind: 'infrastructure',
             type: 'ec2',
-            label: 'Cloud instance · ec2',
+            glyph: 'rack',
+            label: 'Cloud instance · ec2-01',
+            meta: 'eu-west-1a · 0 of 4 slots',
             status: 'initializing',
             links: [{ label: 'AWS console', href: 'https://console.aws.amazon.com/ec2' }],
           }),
@@ -228,7 +264,9 @@ export const scenario01: Scenario = {
             id: 'dev-host-1',
             kind: 'runtime',
             type: 'dev-host',
+            glyph: 'rack',
             label: 'Dev host',
+            meta: 'built from spec',
             status: 'initializing',
             parentId: 'ec2-1',
           }),
@@ -238,18 +276,20 @@ export const scenario01: Scenario = {
     {
       at: 96,
       note: 'Dev host ready',
-      ops: [{ op: 'patch', id: 'dev-host-1', set: { status: 'working' } }],
+      ops: [{ op: 'patch', id: 'dev-host-1', set: { status: 'working', meta: 'long-lived' } }],
     },
     {
       at: 100,
       note: 'First pair',
       ops: [
+        { op: 'patch', id: 'ec2-1', set: { meta: 'eu-west-1a · 1 of 4 slots' } },
         {
           op: 'add',
           entity: ent({
             id: 'sandbox-1',
             kind: 'runtime',
             type: 'sandbox',
+            glyph: 'box',
             label: 'sandbox · master',
             status: 'initializing',
             parentId: 'ec2-1',
@@ -262,6 +302,7 @@ export const scenario01: Scenario = {
             id: 'jim-1',
             kind: 'agent',
             type: 'jim',
+            glyph: 'agent',
             label: 'Jim · PDEV-537',
             status: 'initializing',
             parentId: 'ec2-1',
@@ -275,21 +316,28 @@ export const scenario01: Scenario = {
       at: 108,
       note: 'Jim works on PDEV-537',
       ops: [
-        { op: 'patch', id: 'sandbox-1', set: { status: 'working' } },
-        { op: 'patch', id: 'jim-1', set: { status: 'working', badges: ['fix'] } },
+        { op: 'patch', id: 'sandbox-1', set: { status: 'working', meta: 'seeded · one ref' } },
+        {
+          op: 'patch',
+          id: 'jim-1',
+          set: { status: 'working', meta: 'fix · test · review', badges: ['fix'] },
+        },
       ],
     },
     {
       at: 118,
       note: 'A second pair on the same host',
       ops: [
+        { op: 'patch', id: 'ec2-1', set: { meta: 'eu-west-1a · 2 of 4 slots' } },
         {
           op: 'add',
           entity: ent({
             id: 'sandbox-2',
             kind: 'runtime',
             type: 'sandbox',
+            glyph: 'box',
             label: 'sandbox · release-5.4',
+            meta: 'seeded · one ref',
             status: 'working',
             parentId: 'ec2-1',
             pairWith: 'jim-2',
@@ -301,7 +349,9 @@ export const scenario01: Scenario = {
             id: 'jim-2',
             kind: 'agent',
             type: 'jim',
+            glyph: 'agent',
             label: 'Jim · PDEV-521',
+            meta: 'fix · test · review',
             status: 'working',
             badges: ['fix'],
             parentId: 'ec2-1',
@@ -318,9 +368,9 @@ export const scenario01: Scenario = {
         {
           op: 'patch',
           id: 'jim-1',
-          set: { status: 'error', hand: true, badges: ['boot failed'] },
+          set: { status: 'error', hand: true, meta: 'boot failed', badges: ['boot failed'] },
         },
-        { op: 'patch', id: 'tess', set: { status: 'idle', badges: [] } },
+        { op: 'patch', id: 'tess', set: { status: 'idle', meta: '', badges: [] } },
       ],
     },
     {
@@ -329,6 +379,7 @@ export const scenario01: Scenario = {
       ops: [
         { op: 'remove', id: 'jim-2' },
         { op: 'remove', id: 'sandbox-2' },
+        { op: 'patch', id: 'ec2-1', set: { meta: 'eu-west-1a · 1 of 4 slots' } },
       ],
     },
     { at: 160, note: 'Hold', ops: [] },

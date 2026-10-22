@@ -29,7 +29,7 @@ export const resetButton: CSSProperties = {
 export const pill: CSSProperties = {
   display: 'inline-block',
   padding: '1px 6px',
-  borderRadius: RADIUS,
+  borderRadius: RADIUS.pill,
   border: `1px solid ${LINE}`,
   fontSize: 10,
   lineHeight: '15px',

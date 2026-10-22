@@ -1,6 +1,6 @@
 import type { Snapshot } from '@fleet/schema';
 import { describe, expect, it } from 'vitest';
-import { counts, topLevel, visible } from './selectors.js';
+import { counts, inBand, topLevel } from './selectors.js';
 import type { State } from './types.js';
 
 const snapshot = (entities: Snapshot['entities']): Snapshot => ({
@@ -17,6 +17,8 @@ const entity = (id: string, parentId: string | null) => ({
   id,
   kind: 'runtime' as const,
   type: 'sandbox',
+  glyph: 'box' as const,
+  meta: '',
   parentId,
   label: id,
   badges: [],
@@ -33,7 +35,7 @@ const state = (s: Snapshot | null): State => ({
   snapshot: s,
   receivedAt: 0,
   hello: null,
-  view: { mode: 'overview' },
+  filter: { text: '', needsPerson: false },
   selectedId: null,
   speed: 1,
   running: false,
@@ -45,7 +47,6 @@ describe('selectors are referentially stable', () => {
   it('returns the same array for the same snapshot', () => {
     const s = state(snapshot([entity('a', null), entity('b', 'a')]));
     expect(topLevel(s)).toBe(topLevel(s));
-    expect(visible(s)).toBe(visible(s));
     expect(counts(s)).toBe(counts(s));
   });
 
@@ -61,10 +62,10 @@ describe('selectors are referentially stable', () => {
     expect(counts(s)).toBe(counts(s));
   });
 
-  it('caches each container separately', () => {
-    const s = state(snapshot([entity('a', null), entity('b', 'a'), entity('c', 'x')]));
-    const inside = { ...s, view: { mode: 'inside', containerId: 'a' } as const };
-    expect(visible(inside)).toBe(visible(inside));
-    expect(visible(inside).map((e) => e.id)).toEqual(['b']);
+  it('caches each band separately', () => {
+    const s = state(snapshot([entity('a', null), entity('b', 'a')]));
+    expect(inBand(s, 'ephemeral')).toBe(inBand(s, 'ephemeral'));
+    expect(inBand(s, 'ephemeral').map((e) => e.id)).toEqual(['a']);
+    expect(inBand(s, 'input')).toHaveLength(0);
   });
 });

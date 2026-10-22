@@ -1,8 +1,10 @@
 import type { ClientCommand, Hello, Snapshot } from '@fleet/schema';
 
-export type View = { mode: 'overview' } | { mode: 'inside'; containerId: string };
 export type Connection = 'connecting' | 'open' | 'closed';
 export type Source = 'fixtures' | 'live';
+
+/** The floor is one level, so finding something is filtering rather than navigating. */
+export type Filter = { text: string; needsPerson: boolean };
 
 export type State = {
   connection: Connection;
@@ -11,7 +13,8 @@ export type State = {
   /** performance.now() when it arrived. Freshness is measured from here, never from a clock diff. */
   receivedAt: number | null;
   hello: Hello | null;
-  view: View;
+  /** Narrows both the floor and the list. Empty means everything. */
+  filter: Filter;
   selectedId: string | null;
   speed: number;
   running: boolean;
