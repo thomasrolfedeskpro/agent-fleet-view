@@ -1,0 +1,1901 @@
+{
+  "v": 1,
+  "seq": 7,
+  "sentAt": "2026-01-01T00:00:48.000Z",
+  "scenarioId": "scenario-02",
+  "beat": 7,
+  "elapsedMs": 48000,
+  "entities": [
+    {
+      "parentId": null,
+      "meta": "security reports",
+      "badges": [],
+      "hand": false,
+      "count": 3,
+      "persistent": true,
+      "pairWith": null,
+      "links": [
+        {
+          "label": "VDP queue",
+          "href": "https://example.internal/vdp"
+        }
+      ],
+      "id": "vdp",
+      "kind": "source",
+      "type": "vdp",
+      "glyph": "tray",
+      "label": "VDP intake",
+      "status": "working"
+    },
+    {
+      "parentId": null,
+      "meta": "assigned stories",
+      "badges": [],
+      "hand": false,
+      "count": 14,
+      "persistent": true,
+      "pairWith": null,
+      "links": [
+        {
+          "label": "Triage view",
+          "href": "https://linear.app/deskpro"
+        }
+      ],
+      "id": "linear",
+      "kind": "source",
+      "type": "linear",
+      "glyph": "tray",
+      "label": "Linear",
+      "status": "working"
+    },
+    {
+      "parentId": null,
+      "meta": "queues · schedules · records",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": true,
+      "pairWith": null,
+      "links": [
+        {
+          "label": "Admin",
+          "href": "https://example.internal/control-plane"
+        }
+      ],
+      "id": "cp",
+      "kind": "infrastructure",
+      "type": "control-plane",
+      "glyph": "hub",
+      "label": "Control plane",
+      "status": "working"
+    },
+    {
+      "parentId": null,
+      "meta": "bedrock · the only way out",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": true,
+      "pairWith": null,
+      "links": [],
+      "id": "gateway",
+      "kind": "infrastructure",
+      "type": "model-gateway",
+      "glyph": "gateway",
+      "label": "Model gateway",
+      "status": "working"
+    },
+    {
+      "parentId": null,
+      "meta": "eu-west-1a · 6 of 6 slots",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": null,
+      "links": [
+        {
+          "label": "AWS console",
+          "href": "https://console.aws.amazon.com/ec2"
+        }
+      ],
+      "id": "ec2-01",
+      "kind": "infrastructure",
+      "type": "ec2",
+      "glyph": "rack",
+      "label": "Cloud instance · ec2-01",
+      "status": "working"
+    },
+    {
+      "parentId": null,
+      "meta": "eu-west-1b · 6 of 6 slots",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": null,
+      "links": [
+        {
+          "label": "AWS console",
+          "href": "https://console.aws.amazon.com/ec2"
+        }
+      ],
+      "id": "ec2-02",
+      "kind": "infrastructure",
+      "type": "ec2",
+      "glyph": "rack",
+      "label": "Cloud instance · ec2-02",
+      "status": "working"
+    },
+    {
+      "parentId": null,
+      "meta": "eu-west-1c · 6 of 6 slots",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": null,
+      "links": [
+        {
+          "label": "AWS console",
+          "href": "https://console.aws.amazon.com/ec2"
+        }
+      ],
+      "id": "ec2-03",
+      "kind": "infrastructure",
+      "type": "ec2",
+      "glyph": "rack",
+      "label": "Cloud instance · ec2-03",
+      "status": "working"
+    },
+    {
+      "parentId": null,
+      "meta": "eu-west-2a · 6 of 6 slots",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": null,
+      "links": [
+        {
+          "label": "AWS console",
+          "href": "https://console.aws.amazon.com/ec2"
+        }
+      ],
+      "id": "ec2-04",
+      "kind": "infrastructure",
+      "type": "ec2",
+      "glyph": "rack",
+      "label": "Cloud instance · ec2-04",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-01",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-01-1",
+      "links": [],
+      "id": "sandbox-01-1",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · master",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-01",
+      "meta": "fix · test · review",
+      "badges": [
+        "fix"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-01-1",
+      "links": [
+        {
+          "label": "Linear PDEV-620",
+          "href": "https://linear.app/deskpro/issue/PDEV-620"
+        }
+      ],
+      "id": "jim-01-1",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-620",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-01",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-01-2",
+      "links": [],
+      "id": "sandbox-01-2",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.4",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-01",
+      "meta": "fix · test · review",
+      "badges": [
+        "fix"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-01-2",
+      "links": [
+        {
+          "label": "Linear PDEV-621",
+          "href": "https://linear.app/deskpro/issue/PDEV-621"
+        }
+      ],
+      "id": "jim-01-2",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-621",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-01",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-01-3",
+      "links": [],
+      "id": "sandbox-01-3",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.3",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-01",
+      "meta": "fix · test · review",
+      "badges": [
+        "fix"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-01-3",
+      "links": [
+        {
+          "label": "Linear PDEV-622",
+          "href": "https://linear.app/deskpro/issue/PDEV-622"
+        }
+      ],
+      "id": "jim-01-3",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-622",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-01",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-01-4",
+      "links": [],
+      "id": "sandbox-01-4",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · master",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-01",
+      "meta": "review posted",
+      "badges": [
+        "review"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-01-4",
+      "links": [
+        {
+          "label": "Linear PDEV-623",
+          "href": "https://linear.app/deskpro/issue/PDEV-623"
+        }
+      ],
+      "id": "jim-01-4",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-623",
+      "status": "idle"
+    },
+    {
+      "parentId": "ec2-01",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-01-5",
+      "links": [],
+      "id": "sandbox-01-5",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.5",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-01",
+      "meta": "fix · test · review",
+      "badges": [
+        "fix"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-01-5",
+      "links": [
+        {
+          "label": "Linear SR-414",
+          "href": "https://linear.app/deskpro/issue/SR-414"
+        }
+      ],
+      "id": "jim-01-5",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · SR-414",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-01",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-01-6",
+      "links": [],
+      "id": "sandbox-01-6",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · master",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-01",
+      "meta": "fix · test · review",
+      "badges": [
+        "fix"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-01-6",
+      "links": [
+        {
+          "label": "Linear PDEV-625",
+          "href": "https://linear.app/deskpro/issue/PDEV-625"
+        }
+      ],
+      "id": "jim-01-6",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-625",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-02",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-02-1",
+      "links": [],
+      "id": "sandbox-02-1",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.4",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-02",
+      "meta": "fix · test · review",
+      "badges": [
+        "fix"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-02-1",
+      "links": [
+        {
+          "label": "Linear PDEV-626",
+          "href": "https://linear.app/deskpro/issue/PDEV-626"
+        }
+      ],
+      "id": "jim-02-1",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-626",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-02",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-02-2",
+      "links": [],
+      "id": "sandbox-02-2",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · master",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-02",
+      "meta": "build failed",
+      "badges": [
+        "build failed"
+      ],
+      "hand": true,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-02-2",
+      "links": [
+        {
+          "label": "Linear PDEV-627",
+          "href": "https://linear.app/deskpro/issue/PDEV-627"
+        }
+      ],
+      "id": "jim-02-2",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-627",
+      "status": "error"
+    },
+    {
+      "parentId": "ec2-02",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-02-3",
+      "links": [],
+      "id": "sandbox-02-3",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.4",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-02",
+      "meta": "fix · test · review",
+      "badges": [
+        "fix"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-02-3",
+      "links": [
+        {
+          "label": "Linear PDEV-628",
+          "href": "https://linear.app/deskpro/issue/PDEV-628"
+        }
+      ],
+      "id": "jim-02-3",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-628",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-02",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-02-4",
+      "links": [],
+      "id": "sandbox-02-4",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.3",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-02",
+      "meta": "fix · test · review",
+      "badges": [
+        "fix"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-02-4",
+      "links": [
+        {
+          "label": "Linear SR-419",
+          "href": "https://linear.app/deskpro/issue/SR-419"
+        }
+      ],
+      "id": "jim-02-4",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · SR-419",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-02",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-02-5",
+      "links": [],
+      "id": "sandbox-02-5",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · master",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-02",
+      "meta": "fix · test · review",
+      "badges": [
+        "fix"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-02-5",
+      "links": [
+        {
+          "label": "Linear PDEV-630",
+          "href": "https://linear.app/deskpro/issue/PDEV-630"
+        }
+      ],
+      "id": "jim-02-5",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-630",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-02",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-02-6",
+      "links": [],
+      "id": "sandbox-02-6",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.5",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-02",
+      "meta": "fix · test · review",
+      "badges": [
+        "fix"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-02-6",
+      "links": [
+        {
+          "label": "Linear PDEV-631",
+          "href": "https://linear.app/deskpro/issue/PDEV-631"
+        }
+      ],
+      "id": "jim-02-6",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-631",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-03",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-03-1",
+      "links": [],
+      "id": "sandbox-03-1",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · master",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-03",
+      "meta": "fix · test · review",
+      "badges": [
+        "fix"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-03-1",
+      "links": [
+        {
+          "label": "Linear PDEV-632",
+          "href": "https://linear.app/deskpro/issue/PDEV-632"
+        }
+      ],
+      "id": "jim-03-1",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-632",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-03",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-03-2",
+      "links": [],
+      "id": "sandbox-03-2",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.4",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-03",
+      "meta": "fix · test · review",
+      "badges": [
+        "fix"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-03-2",
+      "links": [
+        {
+          "label": "Linear PDEV-633",
+          "href": "https://linear.app/deskpro/issue/PDEV-633"
+        }
+      ],
+      "id": "jim-03-2",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-633",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-03",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-03-3",
+      "links": [],
+      "id": "sandbox-03-3",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · master",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-03",
+      "meta": "fix · test · review",
+      "badges": [
+        "fix"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-03-3",
+      "links": [
+        {
+          "label": "Linear SR-424",
+          "href": "https://linear.app/deskpro/issue/SR-424"
+        }
+      ],
+      "id": "jim-03-3",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · SR-424",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-03",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-03-4",
+      "links": [],
+      "id": "sandbox-03-4",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.4",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-03",
+      "meta": "fix · test · review",
+      "badges": [
+        "fix"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-03-4",
+      "links": [
+        {
+          "label": "Linear PDEV-635",
+          "href": "https://linear.app/deskpro/issue/PDEV-635"
+        }
+      ],
+      "id": "jim-03-4",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-635",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-03",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-03-5",
+      "links": [],
+      "id": "sandbox-03-5",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.3",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-03",
+      "meta": "review posted",
+      "badges": [
+        "review"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-03-5",
+      "links": [
+        {
+          "label": "Linear PDEV-636",
+          "href": "https://linear.app/deskpro/issue/PDEV-636"
+        }
+      ],
+      "id": "jim-03-5",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-636",
+      "status": "idle"
+    },
+    {
+      "parentId": "ec2-03",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-03-6",
+      "links": [],
+      "id": "sandbox-03-6",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · master",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-03",
+      "meta": "fix · test · review",
+      "badges": [
+        "fix"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-03-6",
+      "links": [
+        {
+          "label": "Linear PDEV-637",
+          "href": "https://linear.app/deskpro/issue/PDEV-637"
+        }
+      ],
+      "id": "jim-03-6",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-637",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-04",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-04-1",
+      "links": [],
+      "id": "sandbox-04-1",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.5",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-04",
+      "meta": "fix · test · review",
+      "badges": [
+        "fix"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-04-1",
+      "links": [
+        {
+          "label": "Linear PDEV-638",
+          "href": "https://linear.app/deskpro/issue/PDEV-638"
+        }
+      ],
+      "id": "jim-04-1",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-638",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-04",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-04-2",
+      "links": [],
+      "id": "sandbox-04-2",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · master",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-04",
+      "meta": "fix · test · review",
+      "badges": [
+        "fix"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-04-2",
+      "links": [
+        {
+          "label": "Linear SR-429",
+          "href": "https://linear.app/deskpro/issue/SR-429"
+        }
+      ],
+      "id": "jim-04-2",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · SR-429",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-04",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-04-3",
+      "links": [],
+      "id": "sandbox-04-3",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.4",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-04",
+      "meta": "fix · test · review",
+      "badges": [
+        "fix"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-04-3",
+      "links": [
+        {
+          "label": "Linear PDEV-640",
+          "href": "https://linear.app/deskpro/issue/PDEV-640"
+        }
+      ],
+      "id": "jim-04-3",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-640",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-04",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-04-4",
+      "links": [],
+      "id": "sandbox-04-4",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · master",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-04",
+      "meta": "tests failed",
+      "badges": [
+        "tests failed"
+      ],
+      "hand": true,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-04-4",
+      "links": [
+        {
+          "label": "Linear PDEV-641",
+          "href": "https://linear.app/deskpro/issue/PDEV-641"
+        }
+      ],
+      "id": "jim-04-4",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-641",
+      "status": "error"
+    },
+    {
+      "parentId": "ec2-04",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-04-5",
+      "links": [],
+      "id": "sandbox-04-5",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.4",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-04",
+      "meta": "fix · test · review",
+      "badges": [
+        "fix"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-04-5",
+      "links": [
+        {
+          "label": "Linear PDEV-642",
+          "href": "https://linear.app/deskpro/issue/PDEV-642"
+        }
+      ],
+      "id": "jim-04-5",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-642",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-04",
+      "meta": "seeded · one ref",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-04-6",
+      "links": [],
+      "id": "sandbox-04-6",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.3",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-04",
+      "meta": "fix · test · review",
+      "badges": [
+        "fix"
+      ],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-04-6",
+      "links": [
+        {
+          "label": "Linear PDEV-643",
+          "href": "https://linear.app/deskpro/issue/PDEV-643"
+        }
+      ],
+      "id": "jim-04-6",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-643",
+      "status": "working"
+    },
+    {
+      "parentId": null,
+      "meta": "us-east-1b · 6 of 6 slots",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": null,
+      "links": [
+        {
+          "label": "AWS console",
+          "href": "https://console.aws.amazon.com/ec2"
+        }
+      ],
+      "id": "ec2-05",
+      "kind": "infrastructure",
+      "type": "ec2",
+      "glyph": "rack",
+      "label": "Cloud instance · ec2-05",
+      "status": "working"
+    },
+    {
+      "parentId": null,
+      "meta": "eu-west-1a · 6 of 6 slots",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": null,
+      "links": [
+        {
+          "label": "AWS console",
+          "href": "https://console.aws.amazon.com/ec2"
+        }
+      ],
+      "id": "ec2-06",
+      "kind": "infrastructure",
+      "type": "ec2",
+      "glyph": "rack",
+      "label": "Cloud instance · ec2-06",
+      "status": "working"
+    },
+    {
+      "parentId": null,
+      "meta": "eu-west-1b · 6 of 6 slots",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": null,
+      "links": [
+        {
+          "label": "AWS console",
+          "href": "https://console.aws.amazon.com/ec2"
+        }
+      ],
+      "id": "ec2-07",
+      "kind": "infrastructure",
+      "type": "ec2",
+      "glyph": "rack",
+      "label": "Cloud instance · ec2-07",
+      "status": "working"
+    },
+    {
+      "parentId": "ec2-05",
+      "meta": "cloning",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-05-1",
+      "links": [],
+      "id": "sandbox-05-1",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · master",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-05",
+      "meta": "claiming a slot",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-05-1",
+      "links": [
+        {
+          "label": "Linear SR-434",
+          "href": "https://linear.app/deskpro/issue/SR-434"
+        }
+      ],
+      "id": "jim-05-1",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · SR-434",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-05",
+      "meta": "cloning",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-05-2",
+      "links": [],
+      "id": "sandbox-05-2",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.5",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-05",
+      "meta": "claiming a slot",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-05-2",
+      "links": [
+        {
+          "label": "Linear PDEV-645",
+          "href": "https://linear.app/deskpro/issue/PDEV-645"
+        }
+      ],
+      "id": "jim-05-2",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-645",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-05",
+      "meta": "cloning",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-05-3",
+      "links": [],
+      "id": "sandbox-05-3",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · master",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-05",
+      "meta": "claiming a slot",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-05-3",
+      "links": [
+        {
+          "label": "Linear PDEV-646",
+          "href": "https://linear.app/deskpro/issue/PDEV-646"
+        }
+      ],
+      "id": "jim-05-3",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-646",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-05",
+      "meta": "cloning",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-05-4",
+      "links": [],
+      "id": "sandbox-05-4",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.4",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-05",
+      "meta": "claiming a slot",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-05-4",
+      "links": [
+        {
+          "label": "Linear PDEV-647",
+          "href": "https://linear.app/deskpro/issue/PDEV-647"
+        }
+      ],
+      "id": "jim-05-4",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-647",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-05",
+      "meta": "cloning",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-05-5",
+      "links": [],
+      "id": "sandbox-05-5",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · master",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-05",
+      "meta": "claiming a slot",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-05-5",
+      "links": [
+        {
+          "label": "Linear PDEV-648",
+          "href": "https://linear.app/deskpro/issue/PDEV-648"
+        }
+      ],
+      "id": "jim-05-5",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-648",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-05",
+      "meta": "cloning",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-05-6",
+      "links": [],
+      "id": "sandbox-05-6",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.4",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-05",
+      "meta": "claiming a slot",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-05-6",
+      "links": [
+        {
+          "label": "Linear SR-439",
+          "href": "https://linear.app/deskpro/issue/SR-439"
+        }
+      ],
+      "id": "jim-05-6",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · SR-439",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-06",
+      "meta": "cloning",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-06-1",
+      "links": [],
+      "id": "sandbox-06-1",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.3",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-06",
+      "meta": "claiming a slot",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-06-1",
+      "links": [
+        {
+          "label": "Linear PDEV-650",
+          "href": "https://linear.app/deskpro/issue/PDEV-650"
+        }
+      ],
+      "id": "jim-06-1",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-650",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-06",
+      "meta": "cloning",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-06-2",
+      "links": [],
+      "id": "sandbox-06-2",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · master",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-06",
+      "meta": "claiming a slot",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-06-2",
+      "links": [
+        {
+          "label": "Linear PDEV-651",
+          "href": "https://linear.app/deskpro/issue/PDEV-651"
+        }
+      ],
+      "id": "jim-06-2",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-651",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-06",
+      "meta": "cloning",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-06-3",
+      "links": [],
+      "id": "sandbox-06-3",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.5",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-06",
+      "meta": "claiming a slot",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-06-3",
+      "links": [
+        {
+          "label": "Linear PDEV-652",
+          "href": "https://linear.app/deskpro/issue/PDEV-652"
+        }
+      ],
+      "id": "jim-06-3",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-652",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-06",
+      "meta": "cloning",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-06-4",
+      "links": [],
+      "id": "sandbox-06-4",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · master",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-06",
+      "meta": "claiming a slot",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-06-4",
+      "links": [
+        {
+          "label": "Linear PDEV-653",
+          "href": "https://linear.app/deskpro/issue/PDEV-653"
+        }
+      ],
+      "id": "jim-06-4",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-653",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-06",
+      "meta": "cloning",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-06-5",
+      "links": [],
+      "id": "sandbox-06-5",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.4",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-06",
+      "meta": "claiming a slot",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-06-5",
+      "links": [
+        {
+          "label": "Linear SR-444",
+          "href": "https://linear.app/deskpro/issue/SR-444"
+        }
+      ],
+      "id": "jim-06-5",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · SR-444",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-06",
+      "meta": "cloning",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-06-6",
+      "links": [],
+      "id": "sandbox-06-6",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · master",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-06",
+      "meta": "claiming a slot",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-06-6",
+      "links": [
+        {
+          "label": "Linear PDEV-655",
+          "href": "https://linear.app/deskpro/issue/PDEV-655"
+        }
+      ],
+      "id": "jim-06-6",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-655",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-07",
+      "meta": "cloning",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-07-1",
+      "links": [],
+      "id": "sandbox-07-1",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.4",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-07",
+      "meta": "claiming a slot",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-07-1",
+      "links": [
+        {
+          "label": "Linear PDEV-656",
+          "href": "https://linear.app/deskpro/issue/PDEV-656"
+        }
+      ],
+      "id": "jim-07-1",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-656",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-07",
+      "meta": "cloning",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-07-2",
+      "links": [],
+      "id": "sandbox-07-2",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.3",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-07",
+      "meta": "claiming a slot",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-07-2",
+      "links": [
+        {
+          "label": "Linear PDEV-657",
+          "href": "https://linear.app/deskpro/issue/PDEV-657"
+        }
+      ],
+      "id": "jim-07-2",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-657",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-07",
+      "meta": "cloning",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-07-3",
+      "links": [],
+      "id": "sandbox-07-3",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · master",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-07",
+      "meta": "claiming a slot",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-07-3",
+      "links": [
+        {
+          "label": "Linear PDEV-658",
+          "href": "https://linear.app/deskpro/issue/PDEV-658"
+        }
+      ],
+      "id": "jim-07-3",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-658",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-07",
+      "meta": "cloning",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-07-4",
+      "links": [],
+      "id": "sandbox-07-4",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.5",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-07",
+      "meta": "claiming a slot",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-07-4",
+      "links": [
+        {
+          "label": "Linear SR-449",
+          "href": "https://linear.app/deskpro/issue/SR-449"
+        }
+      ],
+      "id": "jim-07-4",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · SR-449",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-07",
+      "meta": "cloning",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-07-5",
+      "links": [],
+      "id": "sandbox-07-5",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · master",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-07",
+      "meta": "claiming a slot",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-07-5",
+      "links": [
+        {
+          "label": "Linear PDEV-660",
+          "href": "https://linear.app/deskpro/issue/PDEV-660"
+        }
+      ],
+      "id": "jim-07-5",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-660",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-07",
+      "meta": "cloning",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "jim-07-6",
+      "links": [],
+      "id": "sandbox-07-6",
+      "kind": "runtime",
+      "type": "sandbox",
+      "glyph": "box",
+      "label": "sandbox · release-5.4",
+      "status": "initializing"
+    },
+    {
+      "parentId": "ec2-07",
+      "meta": "claiming a slot",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": "sandbox-07-6",
+      "links": [
+        {
+          "label": "Linear PDEV-661",
+          "href": "https://linear.app/deskpro/issue/PDEV-661"
+        }
+      ],
+      "id": "jim-07-6",
+      "kind": "agent",
+      "type": "jim",
+      "glyph": "agent",
+      "label": "Jim · PDEV-661",
+      "status": "initializing"
+    },
+    {
+      "parentId": null,
+      "meta": "eu-west-1c · 0 of 6 slots",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": null,
+      "links": [
+        {
+          "label": "AWS console",
+          "href": "https://console.aws.amazon.com/ec2"
+        }
+      ],
+      "id": "ec2-08",
+      "kind": "infrastructure",
+      "type": "ec2",
+      "glyph": "rack",
+      "label": "Cloud instance · ec2-08",
+      "status": "initializing"
+    },
+    {
+      "parentId": null,
+      "meta": "eu-west-2a · 0 of 6 slots",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": null,
+      "links": [
+        {
+          "label": "AWS console",
+          "href": "https://console.aws.amazon.com/ec2"
+        }
+      ],
+      "id": "ec2-09",
+      "kind": "infrastructure",
+      "type": "ec2",
+      "glyph": "rack",
+      "label": "Cloud instance · ec2-09",
+      "status": "initializing"
+    },
+    {
+      "parentId": null,
+      "meta": "us-east-1b · 0 of 6 slots",
+      "badges": [],
+      "hand": false,
+      "count": null,
+      "persistent": false,
+      "pairWith": null,
+      "links": [
+        {
+          "label": "AWS console",
+          "href": "https://console.aws.amazon.com/ec2"
+        }
+      ],
+      "id": "ec2-10",
+      "kind": "infrastructure",
+      "type": "ec2",
+      "glyph": "rack",
+      "label": "Cloud instance · ec2-10",
+      "status": "initializing"
+    }
+  ]
+}
