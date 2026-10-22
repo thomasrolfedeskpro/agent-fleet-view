@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
   DRAG_SLOP,
+  FIT_MAX_SCALE,
+  FIT_PADDING,
   fit,
   IDENTITY,
   isDrag,
@@ -57,18 +59,36 @@ describe('isDrag', () => {
 });
 
 describe('fit', () => {
-  it('centres content that already fits, without magnifying it', () => {
+  it('scales small content up so it fills the viewport, and centres it', () => {
+    // Usable space is the viewport less FIT_PADDING on each side: 304 x 204.
     const camera = fit({ width: 200, height: 100 }, { width: 400, height: 300 });
-    expect(camera.scale).toBe(1);
-    expect(camera.x).toBe(100);
-    expect(camera.y).toBe(100);
+    expect(camera.scale).toBeCloseTo(1.52);
+    expect(camera.x).toBeCloseTo(48);
+    expect(camera.y).toBeCloseTo(74);
+  });
+
+  it('stops magnifying at the cap, so one small cell does not fill the screen', () => {
+    expect(fit({ width: 10, height: 10 }, { width: 400, height: 300 }).scale).toBe(FIT_MAX_SCALE);
   });
 
   it('shrinks content that does not fit', () => {
     const camera = fit({ width: 800, height: 100 }, { width: 400, height: 300 });
-    expect(camera.scale).toBe(0.5);
-    expect(camera.x).toBe(0);
-    expect(camera.y).toBe(125);
+    expect(camera.scale).toBeCloseTo(0.38);
+    expect(camera.x).toBeCloseTo(48);
+    expect(camera.y).toBeCloseTo(131);
+  });
+
+  it('leaves a margin rather than running content to the edge', () => {
+    const camera = fit({ width: 600, height: 600 }, { width: 400, height: 400 });
+    expect(camera.x).toBeCloseTo(FIT_PADDING);
+  });
+
+  it('gives the minimum scale precedence over the margin', () => {
+    // Content this large would need to shrink past MIN_SCALE to keep its margin, so the
+    // margin is what gives way.
+    const camera = fit({ width: 4000, height: 4000 }, { width: 400, height: 400 });
+    expect(camera.scale).toBe(MIN_SCALE);
+    expect(camera.x).toBeLessThan(FIT_PADDING);
   });
 
   it('stays put when there is nothing to show', () => {

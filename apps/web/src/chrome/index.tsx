@@ -3,13 +3,13 @@ import { Breadcrumb } from './breadcrumb.js';
 import { DetailPanel } from './detail.js';
 import { FreshnessReadout } from './freshness.js';
 import { EntityList } from './list.js';
-import { SummaryStrip } from './summary.js';
 
 export { Breadcrumb } from './breadcrumb.js';
 export { DetailPanel } from './detail.js';
 export { FreshnessReadout, formatAge, useFreshness } from './freshness.js';
 export { EntityList } from './list.js';
 export { SummaryStrip } from './summary.js';
+export { TopBar } from './topbar.js';
 
 export function Chrome(): React.ReactElement {
   return (
@@ -25,9 +25,7 @@ export function Chrome(): React.ReactElement {
         }}
       >
         <Breadcrumb />
-        <FreshnessReadout />
       </header>
-      <SummaryStrip />
       <EntityList />
       <DetailPanel />
     </div>

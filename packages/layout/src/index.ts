@@ -14,7 +14,7 @@ export type FloorLayout = {
 };
 
 export const CELL_W = 300;
-export const CELL_H = 132;
+export const CELL_H = 104;
 export const CELL_GAP = 24;
 export const OVERVIEW_COLUMNS = 2;
 

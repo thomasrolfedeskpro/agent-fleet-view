@@ -10,13 +10,33 @@ import {
   panBy,
   screenToWorld,
   wheelFactor,
+  ZOOM_STEP,
   zoomAt,
 } from './camera.js';
 import { type CellView, createCellView, paintFrame, paintTethers, updateCellView } from './draw.js';
-import { buildScene, cellAt, dispatchClick, EMPTY_SCENE, type Scene, viewKey } from './scene.js';
+import {
+  buildScene,
+  type CellModel,
+  cellAt,
+  dispatchClick,
+  EMPTY_SCENE,
+  type Scene,
+  viewKey,
+} from './scene.js';
 import { advance, isAnimating, NO_FADES, statusColorAt } from './transitions.js';
 
-export type Stage = { destroy(): void };
+export type Hovered = { cell: CellModel; x: number; y: number };
+
+export type Stage = {
+  destroy(): void;
+  zoomIn(): void;
+  zoomOut(): void;
+  fitView(): void;
+  /** Called with the cell under the pointer, or null when it leaves one. */
+  onHover(listener: (hovered: Hovered | null) => void): void;
+};
+
+type Attached = { detach(): void; controls: Omit<Stage, 'destroy'> };
 
 /**
  * Owns the canvas and subscribes to the store itself, so a snapshot never costs a React
@@ -27,6 +47,8 @@ export function createStage(host: HTMLElement): Stage {
   const app = new Application();
   let disposed = false;
   let detach = (): void => {};
+  let controls: Attached['controls'] | undefined;
+  let pendingHover: ((hovered: Hovered | null) => void) | undefined;
 
   const ready = app
     .init({
@@ -39,11 +61,21 @@ export function createStage(host: HTMLElement): Stage {
     .then(() => {
       if (disposed) return;
       host.appendChild(app.canvas);
-      detach = attach(app);
+      const attached = attach(app);
+      detach = attached.detach;
+      controls = attached.controls;
+      if (pendingHover) controls.onHover(pendingHover);
     })
     .catch(() => {});
 
   return {
+    zoomIn: () => controls?.zoomIn(),
+    zoomOut: () => controls?.zoomOut(),
+    fitView: () => controls?.fitView(),
+    onHover(listener) {
+      pendingHover = listener;
+      controls?.onHover(listener);
+    },
     destroy() {
       disposed = true;
       void ready.then(() => {
@@ -56,7 +88,7 @@ export function createStage(host: HTMLElement): Stage {
   };
 }
 
-function attach(app: Application): () => void {
+function attach(app: Application): Attached {
   const canvas = app.canvas;
   const world = new Container();
   const tetherLayer = new Graphics();
@@ -70,6 +102,16 @@ function attach(app: Application): () => void {
   let fades = NO_FADES;
   let camera: Camera = IDENTITY;
   let fittedKey = '';
+  let hoverListener: ((hovered: Hovered | null) => void) | undefined;
+  let hoveredId: string | null = null;
+
+  const report = (hovered: Hovered | null): void => {
+    const id = hovered?.cell.id ?? null;
+    // Re-reporting the same cell on every mouse move would re-render the card constantly.
+    if (id === hoveredId && !hovered) return;
+    hoveredId = id;
+    hoverListener?.(hovered);
+  };
 
   const applyCamera = (): void => {
     world.x = camera.x;
@@ -168,9 +210,13 @@ function attach(app: Application): () => void {
   const onPointerMove = (event: PointerEvent): void => {
     if (!gesture || gesture.id !== event.pointerId) {
       const point = pointAt(event);
-      canvas.style.cursor = cellAt(scene, point.x, point.y) ? 'pointer' : 'grab';
+      const cell = cellAt(scene, point.x, point.y);
+      canvas.style.cursor = cell ? 'pointer' : 'grab';
+      const rect = canvas.getBoundingClientRect();
+      report(cell ? { cell, x: event.clientX - rect.left, y: event.clientY - rect.top } : null);
       return;
     }
+    report(null);
     if (!gesture.drag && !isDrag(event.clientX - gesture.startX, event.clientY - gesture.startY)) {
       return;
     }
@@ -193,6 +239,8 @@ function attach(app: Application): () => void {
     dispatchClick(scene, point.x, point.y);
   };
 
+  const onLeave = (): void => report(null);
+
   const onWheel = (event: WheelEvent): void => {
     event.preventDefault();
     const rect = canvas.getBoundingClientRect();
@@ -211,15 +259,37 @@ function attach(app: Application): () => void {
   canvas.addEventListener('pointermove', onPointerMove);
   canvas.addEventListener('pointerup', onPointerUp);
   canvas.addEventListener('pointercancel', onPointerUp);
+  canvas.addEventListener('pointerleave', onLeave);
   canvas.addEventListener('wheel', onWheel, { passive: false });
 
-  return () => {
+  const zoomCentre = (factor: number): void => {
+    camera = zoomAt(camera, app.screen.width / 2, app.screen.height / 2, factor);
+    applyCamera();
+  };
+
+  const controls: Attached['controls'] = {
+    zoomIn: () => zoomCentre(ZOOM_STEP),
+    zoomOut: () => zoomCentre(1 / ZOOM_STEP),
+    fitView: () => {
+      if (scene.cells.length === 0) return;
+      camera = fit(scene, app.screen);
+      applyCamera();
+    },
+    onHover(listener) {
+      hoverListener = listener;
+    },
+  };
+
+  const detach = (): void => {
     unsubscribe();
     app.ticker.remove(tick);
     canvas.removeEventListener('pointerdown', onPointerDown);
     canvas.removeEventListener('pointermove', onPointerMove);
     canvas.removeEventListener('pointerup', onPointerUp);
     canvas.removeEventListener('pointercancel', onPointerUp);
+    canvas.removeEventListener('pointerleave', onLeave);
     canvas.removeEventListener('wheel', onWheel);
   };
+
+  return { detach, controls };
 }

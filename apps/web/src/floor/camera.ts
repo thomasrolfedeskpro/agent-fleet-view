@@ -6,6 +6,9 @@ export const MAX_SCALE = 2.5;
 export const IDENTITY: Camera = { x: 0, y: 0, scale: 1 };
 
 /** Below this a pointer gesture is a click rather than a pan. */
+/** One press of the zoom buttons. */
+export const ZOOM_STEP = 1.25;
+
 export const DRAG_SLOP = 4;
 
 const clampScale = (scale: number): number => Math.max(MIN_SCALE, Math.min(MAX_SCALE, scale));
@@ -33,7 +36,13 @@ export function isDrag(dx: number, dy: number): boolean {
   return Math.hypot(dx, dy) > DRAG_SLOP;
 }
 
-/** Centre the content in the viewport, shrinking only when it does not fit. */
+/** Breathing room between the content and the viewport edge. */
+export const FIT_PADDING = 48;
+
+/** A single small cell should not fill the screen, so scaling up stops here. */
+export const FIT_MAX_SCALE = 1.6;
+
+/** Centre the content and size it to the viewport, within limits. */
 export function fit(
   content: { width: number; height: number },
   viewport: { width: number; height: number },
@@ -41,8 +50,10 @@ export function fit(
   if (content.width <= 0 || content.height <= 0 || viewport.width <= 0 || viewport.height <= 0) {
     return IDENTITY;
   }
+  const usableWidth = Math.max(1, viewport.width - FIT_PADDING * 2);
+  const usableHeight = Math.max(1, viewport.height - FIT_PADDING * 2);
   const scale = clampScale(
-    Math.min(1, viewport.width / content.width, viewport.height / content.height),
+    Math.min(FIT_MAX_SCALE, usableWidth / content.width, usableHeight / content.height),
   );
   return {
     scale,

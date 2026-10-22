@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Chrome } from './chrome/index.js';
+import { Chrome, TopBar } from './chrome/index.js';
 import { DebugPanel } from './debug/index.js';
 import { Floor } from './floor/index.js';
 import type { FleetClient } from './net/index.js';
@@ -30,16 +30,19 @@ export function App(): React.ReactElement {
   }, []);
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr auto', height: '100%' }}>
-      <aside style={panel}>
-        <Chrome />
-      </aside>
-      <main style={{ overflow: 'hidden' }}>
-        <Floor />
-      </main>
-      <aside style={{ ...panel, borderRight: 'none', borderLeft: '1px solid var(--line)' }}>
-        <DebugPanel />
-      </aside>
+    <div style={{ display: 'grid', gridTemplateRows: 'auto 1fr', height: '100%' }}>
+      <TopBar />
+      <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr auto', minHeight: 0 }}>
+        <aside style={panel}>
+          <Chrome />
+        </aside>
+        <main style={{ overflow: 'hidden' }}>
+          <Floor />
+        </main>
+        <aside style={{ ...panel, borderRight: 'none', borderLeft: '1px solid var(--line)' }}>
+          <DebugPanel />
+        </aside>
+      </div>
     </div>
   );
 }

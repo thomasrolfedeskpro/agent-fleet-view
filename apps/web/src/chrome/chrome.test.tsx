@@ -3,7 +3,7 @@ import { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
 import { store } from '../store/index.js';
-import { Chrome } from './index.js';
+import { Chrome, TopBar } from './index.js';
 
 const FAKE_CLOCK = [
   'setTimeout',
@@ -67,11 +67,11 @@ const snapshot = Snapshot.parse({
 
 type Mounted = { root: HTMLElement; unmount: () => void };
 
-function mount(): Mounted {
+function mountComponent(node: React.ReactElement): Mounted {
   const host = document.createElement('div');
   document.body.appendChild(host);
   const root = createRoot(host);
-  act(() => root.render(<Chrome />));
+  act(() => root.render(node));
   return {
     root: host,
     unmount: () => {
@@ -80,6 +80,10 @@ function mount(): Mounted {
     },
   };
 }
+
+/** The tallies and the freshness readout live in the top bar, not the sidebar. */
+const mountTopBar = (): Mounted => mountComponent(<TopBar />);
+const mount = (): Mounted => mountComponent(<Chrome />);
 
 function find(root: HTMLElement, testId: string): HTMLElement {
   const el = root.querySelector<HTMLElement>(`[data-testid="${testId}"]`);
@@ -105,12 +109,12 @@ afterEach(() => {
   vi.useRealTimers();
 });
 
-describe('summary strip', () => {
+describe('summary tallies', () => {
   test('tallies each status and the raised hands', () => {
     store.onSnapshot(snapshot);
-    mounted = mount();
+    mounted = mountTopBar();
 
-    const value = (id: string) => find(mounted!.root, `tally-${id}`).dataset.value;
+    const value = (id: string) => find(mounted!.root, `kpi-${id}`).dataset.value;
     expect(value('working')).toBe('2');
     expect(value('idle')).toBe('1');
     expect(value('initializing')).toBe('0');
@@ -121,14 +125,14 @@ describe('summary strip', () => {
 
 describe('freshness', () => {
   test('says so when no snapshot has arrived', () => {
-    mounted = mount();
+    mounted = mountTopBar();
     expect(find(mounted.root, 'freshness').dataset.band).toBe('none');
   });
 
   test('moves current to delayed to stale on its own clock', () => {
     vi.useFakeTimers({ toFake: [...FAKE_CLOCK] });
     store.onSnapshot(snapshot);
-    mounted = mount();
+    mounted = mountTopBar();
 
     const band = () => find(mounted!.root, 'freshness').dataset.band;
     expect(band()).toBe('current');
@@ -149,7 +153,7 @@ describe('freshness', () => {
   test('returns to current when a snapshot arrives', () => {
     vi.useFakeTimers({ toFake: [...FAKE_CLOCK] });
     store.onSnapshot(snapshot);
-    mounted = mount();
+    mounted = mountTopBar();
 
     act(() => vi.advanceTimersByTime(70_000));
     expect(find(mounted.root, 'freshness').dataset.band).toBe('stale');
@@ -161,7 +165,7 @@ describe('freshness', () => {
   test('leaves no timer behind on unmount', () => {
     vi.useFakeTimers({ toFake: [...FAKE_CLOCK] });
     store.onSnapshot(snapshot);
-    const local = mount();
+    const local = mountTopBar();
     expect(vi.getTimerCount()).toBeGreaterThan(0);
 
     local.unmount();
