@@ -22,7 +22,7 @@ which declares itself, fed by a simulator. **Done** is a UI with a debug panel t
 | A container shows two marks | Its own status on the left, and whether a hand is raised inside it on the right. Binary — no counts at container level |
 | Counts | Live in the fleet summary strip, not on containers. "Seven hands raised" is the number that starts an investigation |
 | Two levels | Infrastructure (provisioned in a cloud account) and contents (everything running inside one, flattened). A VM is contents |
-| Pairs | A sandbox and its agent are two components, tethered, stacked vertically in spawn order. The tether is structural only |
+| Pairs | A sandbox and its agent are two components, side by side on one row and tethered. Rows — not the two members — stack vertically in spawn order. The tether is structural only |
 | Freed slots | Stay empty. Nothing below a torn-down pair ever moves |
 | Freshness | Last poll time, top right: green under 20s, amber to 60s, red beyond |
 

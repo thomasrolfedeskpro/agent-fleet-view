@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { Chrome } from './chrome/index.js';
 import { DebugPanel } from './debug/index.js';
 import { Floor } from './floor/index.js';
-import { createMockClient } from './net/index.js';
+import type { FleetClient } from './net/index.js';
+import { createLiveClient, createMockClient } from './net/index.js';
 import { store } from './store/index.js';
 
 const panel: React.CSSProperties = {
@@ -11,16 +12,25 @@ const panel: React.CSSProperties = {
   overflow: 'auto',
 };
 
+/** `?source=fixtures` replays the golden snapshots instead, for working without the server. */
+function chooseClient(): { client: FleetClient; source: 'fixtures' | 'live' } {
+  const wanted = new URLSearchParams(window.location.search).get('source');
+  return wanted === 'fixtures'
+    ? { client: createMockClient(), source: 'fixtures' }
+    : { client: createLiveClient(), source: 'live' };
+}
+
 export function App(): React.ReactElement {
   useEffect(() => {
-    const client = createMockClient();
+    const { client, source } = chooseClient();
+    store.setSource(source);
     store.registerSender(client.send);
     client.connect();
     return () => client.disconnect();
   }, []);
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr 300px', height: '100%' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr auto', height: '100%' }}>
       <aside style={panel}>
         <Chrome />
       </aside>

@@ -83,7 +83,6 @@ export function createMockClient(scenarioId = 'scenario-01'): FleetClient {
           stop();
           break;
         case 'reset':
-          stop();
           index = 0;
           emit();
           break;

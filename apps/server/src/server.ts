@@ -1,7 +1,7 @@
 import type { Hello, ServerMessage } from '@fleet/schema';
 import { ClientCommand, TICK_MS } from '@fleet/schema';
 import { WebSocket, WebSocketServer } from 'ws';
-import { createFixtureSource } from './fixtureSource.js';
+import { createSimulatorSource } from './simulatorSource.js';
 import { PATH, PORT, type SnapshotSource } from './types.js';
 
 export type FleetServer = {
@@ -27,7 +27,7 @@ function parseCommand(raw: string): ClientCommand | undefined {
 }
 
 export function startServer(options: ServerOptions = {}): Promise<FleetServer> {
-  const source = options.source ?? createFixtureSource();
+  const source = options.source ?? createSimulatorSource();
   const tickMs = options.tickMs ?? TICK_MS;
   const wss = new WebSocketServer({ port: options.port ?? PORT, path: PATH });
 
@@ -44,10 +44,14 @@ export function startServer(options: ServerOptions = {}): Promise<FleetServer> {
     }
   };
 
+  const emit = (dtMs: number): void => {
+    seq += 1;
+    broadcast({ type: 'snapshot', snapshot: { ...source.next(dtMs), seq } });
+  };
+
   const tick = (): void => {
     if (stalling) return;
-    seq += 1;
-    broadcast({ type: 'snapshot', snapshot: { ...source.next(tickMs), seq } });
+    emit(tickMs);
   };
 
   const stopTicking = (): void => {
@@ -66,6 +70,7 @@ export function startServer(options: ServerOptions = {}): Promise<FleetServer> {
         if (!source.listScenarios().some((meta) => meta.id === command.scenarioId)) return;
         source.start(command.scenarioId);
         running = true;
+        emit(0);
         startTicking();
         return;
       }
@@ -80,6 +85,7 @@ export function startServer(options: ServerOptions = {}): Promise<FleetServer> {
       case 'reset':
         // A rewind only: the store tracks running itself and no command tells it otherwise.
         source.reset();
+        emit(0);
         return;
       case 'setSpeed': {
         if (!Number.isFinite(command.speed) || command.speed <= 0) return;
@@ -89,6 +95,7 @@ export function startServer(options: ServerOptions = {}): Promise<FleetServer> {
       }
       case 'jumpToBeat':
         source.jumpToBeat(command.beat);
+        emit(0);
         return;
       case 'setStalling':
         stalling = command.stalling;
