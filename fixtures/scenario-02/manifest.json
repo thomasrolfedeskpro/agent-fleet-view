@@ -1,0 +1,79 @@
+{
+  "id": "scenario-02",
+  "title": "A busy afternoon",
+  "beats": [
+    {
+      "at": 0,
+      "note": "Quiet floor"
+    },
+    {
+      "at": 6,
+      "note": "The afternoon queue builds"
+    },
+    {
+      "at": 12,
+      "note": "Four instances requested"
+    },
+    {
+      "at": 20,
+      "note": "Four instances fill"
+    },
+    {
+      "at": 28,
+      "note": "Three more instances requested"
+    },
+    {
+      "at": 34,
+      "note": "Work starts on the first four"
+    },
+    {
+      "at": 40,
+      "note": "The middle three fill"
+    },
+    {
+      "at": 48,
+      "note": "The last three requested"
+    },
+    {
+      "at": 54,
+      "note": "Work starts on the middle three"
+    },
+    {
+      "at": 60,
+      "note": "The last three fill"
+    },
+    {
+      "at": 68,
+      "note": "Work starts on the last three"
+    },
+    {
+      "at": 74,
+      "note": "A finding needs an untrusted zone"
+    },
+    {
+      "at": 80,
+      "note": "Vera pair comes up"
+    },
+    {
+      "at": 86,
+      "note": "Vera reproduces VDP-91"
+    },
+    {
+      "at": 94,
+      "note": "A long build fails on ec2-07"
+    },
+    {
+      "at": 102,
+      "note": "Four slots recycle"
+    },
+    {
+      "at": 110,
+      "note": "The review queue moves"
+    },
+    {
+      "at": 118,
+      "note": "Hold"
+    }
+  ],
+  "count": 18
+}
