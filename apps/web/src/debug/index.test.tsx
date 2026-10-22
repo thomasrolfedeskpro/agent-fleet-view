@@ -241,3 +241,87 @@ describe('collapsing', () => {
     expect(sent).toEqual([{ cmd: 'start', scenarioId: 'scenario-02' }]);
   });
 });
+
+describe('freshness dot', () => {
+  const dot = (): HTMLElement => {
+    const found = container.querySelector<HTMLElement>('.dbg-dot');
+    if (!found) throw new Error('no freshness dot');
+    return found;
+  };
+
+  it('reads stale until a snapshot arrives', () => {
+    expect(dot().dataset.band).toBe('stale');
+  });
+
+  it('reads current once one has', () => {
+    act(() => {
+      store.onSnapshot(snapshotAt(0));
+    });
+    expect(dot().dataset.band).toBe('current');
+  });
+
+  it('marks the connection state on its value', () => {
+    act(() => {
+      store.onConnection('closed');
+    });
+    expect(container.querySelector('dd[data-conn="closed"]')?.textContent).toBe('closed');
+  });
+});
+
+describe('labelling', () => {
+  it('ties the scenario picker to a label', () => {
+    const select = container.querySelector('select');
+    const label = container.querySelector('label[for="dbg-scenario"]');
+    expect(select?.id).toBe('dbg-scenario');
+    expect(label?.textContent).toBe('Scenario');
+  });
+
+  it('names the speed group and presses exactly one segment', () => {
+    const group = container.querySelector('fieldset');
+    expect(group?.querySelector('legend')?.textContent).toBe('Speed');
+    const pressed = [...container.querySelectorAll('[aria-pressed="true"]')];
+    expect(pressed.map((b) => b.textContent)).toEqual(['1x']);
+  });
+
+  it('labels the collapse toggle by what it will do', () => {
+    expect(collapseToggle().getAttribute('aria-label')).toBe('Collapse debug panel');
+    click(collapseToggle());
+    expect(collapseToggle().getAttribute('aria-label')).toBe('Expand debug panel');
+    expect(collapseToggle().getAttribute('aria-expanded')).toBe('false');
+  });
+});
+
+describe('following the current beat', () => {
+  /** jsdom has no scrollIntoView at all, which is why the panel calls it optionally. */
+  function recordScrolls(): Element[] {
+    const seen: Element[] = [];
+    Object.defineProperty(Element.prototype, 'scrollIntoView', {
+      configurable: true,
+      value(this: Element) {
+        seen.push(this);
+      },
+    });
+    return seen;
+  }
+
+  afterEach(() => {
+    Reflect.deleteProperty(Element.prototype, 'scrollIntoView');
+  });
+
+  it('scrolls the row of the beat the snapshot reports', () => {
+    const seen = recordScrolls();
+    act(() => {
+      store.onSnapshot(snapshotAt(2));
+    });
+    const rows = [...(container.querySelector('.dbg-beat-list')?.children ?? [])];
+    expect(seen.at(-1)).toBe(rows[2]);
+  });
+
+  it('scrolls nothing while the snapshot belongs to another scenario', () => {
+    const seen = recordScrolls();
+    act(() => {
+      store.onSnapshot(snapshotAt(0, 'scenario-02'));
+    });
+    expect(seen).toEqual([]);
+  });
+});
