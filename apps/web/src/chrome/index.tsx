@@ -1,6 +1,5 @@
 import { LINE } from '../theme/tokens.js';
 import { DetailPanel } from './detail.js';
-import { FreshnessReadout } from './freshness.js';
 import { EntityList } from './list.js';
 
 export { DetailPanel } from './detail.js';

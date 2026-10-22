@@ -15,6 +15,9 @@
   --status-working: #16a34a;
   --status-idle: #94a3b8;
   --status-error: #dc2626;
+  --radius: 13px;
+  --radius-row: 9px;
+  --radius-pill: 99px;
   --font: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
