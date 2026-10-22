@@ -120,6 +120,8 @@ function BandRow({
           display: 'grid',
           gridTemplateColumns: `repeat(${Math.min(entities.length, MAX_COLUMNS)}, ${CARD_W}px)`,
           gap: GAP,
+          // The zone is drawn, so it has to end where its cards end rather than fill the pane.
+          width: 'max-content',
           padding: ephemeral ? 14 : 0,
           border: ephemeral ? `1px dashed #D3DAE3` : 'none',
           borderRadius: ephemeral ? RADIUS.zone : 0,
