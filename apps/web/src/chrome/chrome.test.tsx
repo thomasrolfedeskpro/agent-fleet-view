@@ -145,6 +145,7 @@ afterEach(() => {
 describe('summary tallies', () => {
   test('tallies each status and the raised hands', () => {
     store.onSnapshot(snapshot);
+    store.onConnection('open');
     mounted = mountTopBar();
 
     const value = (id: string) => find(mounted!.root, `kpi-${id}`).dataset.value;
@@ -517,6 +518,7 @@ describe('top bar', () => {
   test('the freshness readout names the source and the age', () => {
     vi.useFakeTimers({ toFake: [...FAKE_CLOCK] });
     store.setSource('live');
+    store.onConnection('open');
     store.onSnapshot(snapshot);
     mounted = mountTopBar();
 
@@ -524,6 +526,17 @@ describe('top bar', () => {
 
     act(() => vi.advanceTimersByTime(3_000));
     expect(find(mounted.root, 'freshness').textContent).toBe('live · updated 3s ago');
+  });
+
+  test('the freshness readout stops claiming to be live once the socket drops', () => {
+    vi.useFakeTimers({ toFake: [...FAKE_CLOCK] });
+    store.setSource('live');
+    store.onConnection('open');
+    store.onSnapshot(snapshot);
+    mounted = mountTopBar();
+
+    act(() => store.onConnection('closed'));
+    expect(find(mounted.root, 'freshness').textContent).toBe('offline · updated 0s ago');
   });
 });
 

@@ -9,7 +9,7 @@ const fixture = (beat: number) =>
     readFileSync(
       join(
         import.meta.dirname,
-        '../../../fixtures/scenario-01/beat-' + String(beat).padStart(2, '0') + '.json',
+        `../../../fixtures/scenario-01/beat-${String(beat).padStart(2, '0')}.json`,
       ),
       'utf8',
     ),

@@ -8,7 +8,6 @@ import {
   HAIRLINE,
   INK,
   LINE,
-  MUTED,
   QUIET,
   RADIUS,
   SHADOW,
@@ -103,7 +102,7 @@ function Row({ pair, selectedId }: { pair: Pair; selectedId: string | null }): R
           <Half entity={partner} selected={selected} />
         </>
       ) : (
-        <span style={{ color: MUTED, fontSize: 12 }}>{lead.meta}</span>
+        <span style={{ color: QUIET, fontSize: 12 }}>{lead.meta}</span>
       )}
       {wantsPerson ? (
         <span style={{ color: ATTENTION, display: 'flex' }}>
@@ -218,7 +217,7 @@ export function Card({
             borderRadius: RADIUS.row,
             display: 'grid',
             placeItems: 'center',
-            color: untrusted ? ATTENTION_INK : MUTED,
+            color: untrusted ? ATTENTION_INK : QUIET,
             background: untrusted ? ATTENTION_TINT : 'transparent',
           }}
         >

@@ -48,8 +48,11 @@ const readout: React.CSSProperties = {
  * and a dot only has to clear 3:1.
  */
 export function FreshnessReadout(): React.ReactElement {
-  const source = useStore((s) => s.source);
+  const configured = useStore((s) => s.source);
+  const connection = useStore((s) => s.connection);
   const { ageMs, band } = useFreshness();
+  // A dropped socket must not keep claiming to be live; the age alone would not say so.
+  const source = connection === 'open' ? configured : 'offline';
 
   if (band === null || ageMs === null) {
     return (
