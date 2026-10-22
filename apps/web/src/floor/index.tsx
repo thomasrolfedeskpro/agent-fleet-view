@@ -1,24 +1,26 @@
-import { layoutContainer, layoutOverview } from '@fleet/layout';
-import { useStore, visible } from '../store/index.js';
+import { useEffect, useRef } from 'react';
+import { createStage } from './stage.js';
+
+const host: React.CSSProperties = {
+  width: '100%',
+  height: '100%',
+  overflow: 'hidden',
+  background: 'var(--floor)',
+};
 
 /**
- * Placeholder. Task T4 replaces this file's contents with the PixiJS surface; the signature
- * and the mount point stay as they are.
+ * Mounts the canvas once and never renders again. Everything that changes with a snapshot is
+ * handled by the Pixi layer, which subscribes to the store itself.
  */
 export function Floor(): React.ReactElement {
-  const items = useStore(visible);
-  const view = useStore((s) => s.view);
-  const layout =
-    view.mode === 'overview' ? layoutOverview(items) : layoutContainer(view.containerId, items);
+  const mount = useRef<HTMLDivElement>(null);
 
-  return (
-    <div style={{ padding: 16, overflow: 'auto', height: '100%' }}>
-      <p style={{ color: 'var(--quiet)', margin: '0 0 12px' }}>
-        Floor renderer — task T4. {items.length} entities, {layout.cells.length} cells.
-      </p>
-      <pre style={{ fontSize: 11, lineHeight: 1.5, margin: 0 }}>
-        {JSON.stringify(items, null, 2)}
-      </pre>
-    </div>
-  );
+  useEffect(() => {
+    const element = mount.current;
+    if (!element) return;
+    const stage = createStage(element);
+    return () => stage.destroy();
+  }, []);
+
+  return <div ref={mount} style={host} />;
 }
