@@ -104,8 +104,15 @@ describe('fleet server', () => {
       type: 'hello',
       v: 1,
       tickMs: TEST_TICK_MS,
-      scenarios: [{ id: 'scenario-01', title: 'A VDP report through Tess, Vera and Jim' }],
     });
+    // toMatchObject compares array length, so the scenario is checked on its own.
+    const hello = client.messages[0] as { scenarios: Array<{ id: string; title: string }> };
+    expect(hello.scenarios).toContainEqual(
+      expect.objectContaining({
+        id: 'scenario-01',
+        title: 'A VDP report through Tess, Vera and Jim',
+      }),
+    );
   });
 
   it('refuses a connection on any other path', async () => {

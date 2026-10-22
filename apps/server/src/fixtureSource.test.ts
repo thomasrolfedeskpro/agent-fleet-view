@@ -25,10 +25,12 @@ describe('fixture snapshot source', () => {
   it('lists the scenarios on disk with their beat metadata', () => {
     const scenarios = createFixtureSource().listScenarios();
 
-    expect(scenarios.map((s) => s.id)).toEqual(['scenario-01']);
-    expect(scenarios[0]?.title).toBe('A VDP report through Tess, Vera and Jim');
-    expect(scenarios[0]?.beats).toHaveLength(21);
-    expect(scenarios[0]?.beats[0]).toEqual({ at: 0, note: 'Quiet floor' });
+    // Asserting the exact list would make every new scenario a failing test.
+    expect(scenarios.map((s) => s.id)).toContain('scenario-01');
+    const first = scenarios.find((s) => s.id === 'scenario-01');
+    expect(first?.title).toBe('A VDP report through Tess, Vera and Jim');
+    expect(first?.beats).toHaveLength(21);
+    expect(first?.beats[0]).toEqual({ at: 0, note: 'Quiet floor' });
   });
 
   it('produces the golden snapshot for the beat the scenario clock is on', () => {
