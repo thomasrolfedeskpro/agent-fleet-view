@@ -2,7 +2,7 @@ import type { Freshness } from '@fleet/schema';
 import { freshnessOf } from '@fleet/schema';
 import { useEffect, useState } from 'react';
 import { useStore } from '../store/index.js';
-import { FRESHNESS_COLOR, QUIET } from '../theme/tokens.js';
+import { FRESHNESS_COLOR, INK, QUIET } from '../theme/tokens.js';
 import { dot } from './styles.js';
 
 export const FRESHNESS_TICK_MS = 1000;
@@ -33,13 +33,32 @@ export function useFreshness(intervalMs: number = FRESHNESS_TICK_MS): FreshnessS
   return { ageMs, band: freshnessOf(ageMs) };
 }
 
+const readout: React.CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 7,
+  fontSize: 12,
+  color: QUIET,
+  fontVariantNumeric: 'tabular-nums',
+  whiteSpace: 'nowrap',
+};
+
+/**
+ * The band colours the dot and never the words: amber and green are both under 4.5:1 on white,
+ * and a dot only has to clear 3:1.
+ */
 export function FreshnessReadout(): React.ReactElement {
+  const source = useStore((s) => s.source);
   const { ageMs, band } = useFreshness();
 
   if (band === null || ageMs === null) {
     return (
-      <span data-testid="freshness" data-band="none" style={{ color: QUIET, fontSize: 11 }}>
-        no snapshot yet
+      <span data-testid="freshness" data-band="none" data-source={source} style={readout}>
+        <span style={dot(QUIET, 7)} />
+        <span>
+          <strong style={{ color: INK }}>{source}</strong>
+          {' · no snapshot yet'}
+        </span>
       </span>
     );
   }
@@ -48,18 +67,15 @@ export function FreshnessReadout(): React.ReactElement {
     <span
       data-testid="freshness"
       data-band={band}
+      data-source={source}
       title={`last snapshot ${formatAge(ageMs)} ago`}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 6,
-        fontSize: 11,
-        color: FRESHNESS_COLOR[band],
-        fontVariantNumeric: 'tabular-nums',
-      }}
+      style={readout}
     >
       <span style={dot(FRESHNESS_COLOR[band], 7)} />
-      {formatAge(ageMs)} ago
+      <span>
+        <strong style={{ color: INK }}>{source}</strong>
+        {` · updated ${formatAge(ageMs)} ago`}
+      </span>
     </span>
   );
 }

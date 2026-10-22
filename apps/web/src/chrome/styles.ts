@@ -1,12 +1,13 @@
 import type { CSSProperties } from 'react';
-import { LINE, QUIET, RADIUS } from '../theme/tokens.js';
+import { INK, LINE, QUIET, RADIUS, SURFACE } from '../theme/tokens.js';
 
 export const section: CSSProperties = {
-  padding: '12px 16px',
+  padding: '12px 14px',
   borderBottom: `1px solid ${LINE}`,
 };
 
 export const sectionTitle: CSSProperties = {
+  display: 'block',
   margin: '0 0 8px',
   fontSize: 10,
   letterSpacing: '0.08em',
@@ -27,14 +28,24 @@ export const resetButton: CSSProperties = {
 };
 
 export const pill: CSSProperties = {
-  display: 'inline-block',
-  padding: '1px 6px',
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 4,
+  padding: '1px 7px',
   borderRadius: RADIUS.pill,
   border: `1px solid ${LINE}`,
+  background: SURFACE,
   fontSize: 10,
-  lineHeight: '15px',
+  lineHeight: '16px',
   color: QUIET,
   whiteSpace: 'nowrap',
+};
+
+/** A number beside a label: always tabular, so a changing count does not shuffle the row. */
+export const figure: CSSProperties = {
+  fontVariantNumeric: 'tabular-nums',
+  fontWeight: 600,
+  color: INK,
 };
 
 export function dot(color: string, size = 8): CSSProperties {
