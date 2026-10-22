@@ -1,0 +1,271 @@
+.dbg {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  font-size: 12px;
+}
+
+.dbg-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.dbg-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--quiet);
+  margin: 0;
+  flex: 1;
+}
+
+.dbg-collapse {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--quiet);
+  border-radius: var(--radius);
+  width: 24px;
+  height: 24px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+
+.dbg-collapse:hover {
+  color: var(--ink);
+  border-color: var(--quiet);
+}
+
+.dbg-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+}
+
+.dbg-section {
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dbg-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--quiet);
+}
+
+.dbg-readout {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  background: var(--floor);
+  font-variant-numeric: tabular-nums;
+}
+
+.dbg-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.dbg-readout dl {
+  display: contents;
+  margin: 0;
+}
+
+.dbg-readout dt {
+  color: var(--quiet);
+}
+
+.dbg-readout dd {
+  margin: 0 0 0 -6px;
+  color: var(--ink);
+}
+
+.dbg-select {
+  font: inherit;
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 6px 8px;
+  width: 100%;
+}
+
+.dbg-transport {
+  display: flex;
+  gap: 6px;
+}
+
+.dbg-btn {
+  font: inherit;
+  font-family: var(--font);
+  flex: 1;
+  padding: 7px 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.dbg-btn:hover:not(:disabled) {
+  border-color: var(--quiet);
+}
+
+.dbg-btn:disabled {
+  color: var(--quiet);
+  cursor: default;
+  opacity: 0.55;
+}
+
+.dbg-btn-primary {
+  background: var(--status-working);
+  border-color: var(--status-working);
+  color: var(--surface);
+  font-weight: 600;
+}
+
+.dbg-btn-primary:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.dbg-btn-primary:disabled {
+  color: var(--surface);
+}
+
+.dbg-speeds {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  min-inline-size: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.dbg-speed {
+  font: inherit;
+  font-family: var(--font);
+  flex: 1;
+  padding: 6px 0;
+  border: none;
+  border-left: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--quiet);
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+}
+
+.dbg-speed:first-child {
+  border-left: none;
+}
+
+.dbg-speed:hover {
+  color: var(--ink);
+}
+
+.dbg-speed[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--surface);
+  font-weight: 600;
+}
+
+.dbg-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+.dbg-toggle input {
+  margin: 0;
+  accent-color: var(--attention);
+}
+
+.dbg-toggle-note {
+  color: var(--quiet);
+  margin-left: auto;
+}
+
+.dbg-beats {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+}
+
+.dbg-beats-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 12px 12px 8px;
+}
+
+.dbg-beat-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 8px 12px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.dbg-beat {
+  font: inherit;
+  font-family: var(--font);
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  border-radius: var(--radius);
+  background: none;
+  color: var(--quiet);
+  padding: 5px 8px;
+  cursor: pointer;
+}
+
+.dbg-beat:hover {
+  background: var(--floor);
+  color: var(--ink);
+}
+
+.dbg-beat[aria-current="true"] {
+  background: var(--floor);
+  color: var(--ink);
+  font-weight: 600;
+  box-shadow: inset 2px 0 0 var(--status-working);
+}
+
+.dbg-beat-at {
+  font-variant-numeric: tabular-nums;
+  flex: none;
+  width: 34px;
+}
+
+.dbg-beat-note {
+  flex: 1;
+}
+
+.dbg-empty {
+  padding: 12px;
+  color: var(--quiet);
+}
