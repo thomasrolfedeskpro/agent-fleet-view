@@ -11,7 +11,7 @@
       "meta": "security reports",
       "badges": [],
       "hand": false,
-      "count": 6,
+      "count": 5,
       "persistent": true,
       "pairWith": null,
       "links": [
@@ -87,9 +87,9 @@
     },
     {
       "parentId": "cp",
-      "meta": "six zones to raise",
+      "meta": "triaging VDP-902",
       "badges": [
-        "batch of 6"
+        "2 of 7"
       ],
       "hand": false,
       "count": null,
@@ -117,54 +117,6 @@
       "type": "isolated-instance",
       "glyph": "shield",
       "label": "Untrusted zone · 01",
-      "status": "initializing"
-    },
-    {
-      "parentId": null,
-      "meta": "locked down for VDP-902",
-      "badges": [],
-      "hand": false,
-      "count": null,
-      "persistent": false,
-      "pairWith": null,
-      "links": [],
-      "id": "vera-inst-02",
-      "kind": "infrastructure",
-      "type": "isolated-instance",
-      "glyph": "shield",
-      "label": "Untrusted zone · 02",
-      "status": "initializing"
-    },
-    {
-      "parentId": null,
-      "meta": "locked down for VDP-903",
-      "badges": [],
-      "hand": false,
-      "count": null,
-      "persistent": false,
-      "pairWith": null,
-      "links": [],
-      "id": "vera-inst-03",
-      "kind": "infrastructure",
-      "type": "isolated-instance",
-      "glyph": "shield",
-      "label": "Untrusted zone · 03",
-      "status": "initializing"
-    },
-    {
-      "parentId": null,
-      "meta": "locked down for VDP-904",
-      "badges": [],
-      "hand": false,
-      "count": null,
-      "persistent": false,
-      "pairWith": null,
-      "links": [],
-      "id": "vera-inst-04",
-      "kind": "infrastructure",
-      "type": "isolated-instance",
-      "glyph": "shield",
-      "label": "Untrusted zone · 04",
       "status": "initializing"
     }
   ]

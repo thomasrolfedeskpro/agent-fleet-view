@@ -1,17 +1,17 @@
 {
   "v": 1,
   "seq": 4,
-  "sentAt": "2026-01-01T00:00:26.000Z",
+  "sentAt": "2026-01-01T00:00:24.000Z",
   "scenarioId": "scenario-03",
   "beat": 4,
-  "elapsedMs": 26000,
+  "elapsedMs": 24000,
   "entities": [
     {
       "parentId": null,
       "meta": "security reports",
       "badges": [],
       "hand": false,
-      "count": 6,
+      "count": 4,
       "persistent": true,
       "pairWith": null,
       "links": [
@@ -87,9 +87,9 @@
     },
     {
       "parentId": "cp",
-      "meta": "six zones to raise",
+      "meta": "triaging VDP-903",
       "badges": [
-        "batch of 6"
+        "3 of 7"
       ],
       "hand": false,
       "count": null,
@@ -117,54 +117,6 @@
       "type": "isolated-instance",
       "glyph": "shield",
       "label": "Untrusted zone · 01",
-      "status": "working"
-    },
-    {
-      "parentId": null,
-      "meta": "locked down for VDP-902",
-      "badges": [],
-      "hand": false,
-      "count": null,
-      "persistent": false,
-      "pairWith": null,
-      "links": [],
-      "id": "vera-inst-02",
-      "kind": "infrastructure",
-      "type": "isolated-instance",
-      "glyph": "shield",
-      "label": "Untrusted zone · 02",
-      "status": "working"
-    },
-    {
-      "parentId": null,
-      "meta": "locked down for VDP-903",
-      "badges": [],
-      "hand": false,
-      "count": null,
-      "persistent": false,
-      "pairWith": null,
-      "links": [],
-      "id": "vera-inst-03",
-      "kind": "infrastructure",
-      "type": "isolated-instance",
-      "glyph": "shield",
-      "label": "Untrusted zone · 03",
-      "status": "working"
-    },
-    {
-      "parentId": null,
-      "meta": "locked down for VDP-904",
-      "badges": [],
-      "hand": false,
-      "count": null,
-      "persistent": false,
-      "pairWith": null,
-      "links": [],
-      "id": "vera-inst-04",
-      "kind": "infrastructure",
-      "type": "isolated-instance",
-      "glyph": "shield",
-      "label": "Untrusted zone · 04",
       "status": "working"
     },
     {
@@ -205,114 +157,19 @@
       "status": "initializing"
     },
     {
-      "parentId": "vera-inst-02",
-      "meta": "cloning",
+      "parentId": null,
+      "meta": "locked down for VDP-902",
       "badges": [],
       "hand": false,
       "count": null,
       "persistent": false,
-      "pairWith": "vera-02",
+      "pairWith": null,
       "links": [],
-      "id": "vera-app-02",
-      "kind": "runtime",
-      "type": "app-instance",
-      "glyph": "box",
-      "label": "app · VDP-902",
-      "status": "initializing"
-    },
-    {
-      "parentId": "vera-inst-02",
-      "meta": "claiming a zone",
-      "badges": [],
-      "hand": false,
-      "count": null,
-      "persistent": false,
-      "pairWith": "vera-app-02",
-      "links": [
-        {
-          "label": "Report VDP-902",
-          "href": "https://example.internal/vdp/VDP-902"
-        }
-      ],
-      "id": "vera-02",
-      "kind": "agent",
-      "type": "vera",
-      "glyph": "agent",
-      "label": "Vera · VDP-902",
-      "status": "initializing"
-    },
-    {
-      "parentId": "vera-inst-03",
-      "meta": "cloning",
-      "badges": [],
-      "hand": false,
-      "count": null,
-      "persistent": false,
-      "pairWith": "vera-03",
-      "links": [],
-      "id": "vera-app-03",
-      "kind": "runtime",
-      "type": "app-instance",
-      "glyph": "box",
-      "label": "app · VDP-903",
-      "status": "initializing"
-    },
-    {
-      "parentId": "vera-inst-03",
-      "meta": "claiming a zone",
-      "badges": [],
-      "hand": false,
-      "count": null,
-      "persistent": false,
-      "pairWith": "vera-app-03",
-      "links": [
-        {
-          "label": "Report VDP-903",
-          "href": "https://example.internal/vdp/VDP-903"
-        }
-      ],
-      "id": "vera-03",
-      "kind": "agent",
-      "type": "vera",
-      "glyph": "agent",
-      "label": "Vera · VDP-903",
-      "status": "initializing"
-    },
-    {
-      "parentId": "vera-inst-04",
-      "meta": "cloning",
-      "badges": [],
-      "hand": false,
-      "count": null,
-      "persistent": false,
-      "pairWith": "vera-04",
-      "links": [],
-      "id": "vera-app-04",
-      "kind": "runtime",
-      "type": "app-instance",
-      "glyph": "box",
-      "label": "app · VDP-904",
-      "status": "initializing"
-    },
-    {
-      "parentId": "vera-inst-04",
-      "meta": "claiming a zone",
-      "badges": [],
-      "hand": false,
-      "count": null,
-      "persistent": false,
-      "pairWith": "vera-app-04",
-      "links": [
-        {
-          "label": "Report VDP-904",
-          "href": "https://example.internal/vdp/VDP-904"
-        }
-      ],
-      "id": "vera-04",
-      "kind": "agent",
-      "type": "vera",
-      "glyph": "agent",
-      "label": "Vera · VDP-904",
+      "id": "vera-inst-02",
+      "kind": "infrastructure",
+      "type": "isolated-instance",
+      "glyph": "shield",
+      "label": "Untrusted zone · 02",
       "status": "initializing"
     }
   ]

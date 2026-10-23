@@ -11,7 +11,7 @@
       "meta": "security reports",
       "badges": [],
       "hand": false,
-      "count": 6,
+      "count": 7,
       "persistent": true,
       "pairWith": null,
       "links": [
@@ -87,7 +87,7 @@
     },
     {
       "parentId": "cp",
-      "meta": "sorting six reports",
+      "meta": "one report at a time",
       "badges": [],
       "hand": false,
       "count": null,

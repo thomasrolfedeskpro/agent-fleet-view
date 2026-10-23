@@ -47,7 +47,7 @@ describe('scenario-03', () => {
 
   it('is offered by the server and the debug panel', () => {
     expect(SCENARIOS.map((s) => s.id)).toContain('scenario-03');
-    expect(scenarioById('scenario-03')?.title).toBe('Seven reports at once');
+    expect(scenarioById('scenario-03')?.title).toBe('Seven reports, one at a time');
   });
 
   it('has beats in ascending time, each one distinct', () => {
@@ -79,29 +79,76 @@ describe('scenario-03', () => {
     });
   });
 
-  it('stands six untrusted zones side by side at the peak', () => {
-    const peak = zones(stateAt('All six zones are up'));
-
-    expect(peak.map((e) => e.id)).toEqual([
-      'vera-inst-01',
-      'vera-inst-02',
-      'vera-inst-03',
-      'vera-inst-04',
-      'vera-inst-05',
-      'vera-inst-06',
-    ]);
-    expect(peak.every((e) => e.glyph === 'shield')).toBe(true);
+  it('raises at most one zone per beat, because Tess holds one report at a time', () => {
+    for (const beat of scenario03.beats) {
+      const raised = beat.ops.filter(
+        (op) => op.op === 'add' && op.entity.type === 'isolated-instance',
+      );
+      expect(raised.length, beat.note).toBeLessThanOrEqual(1);
+    }
   });
 
-  it('never drops below two zones once the first one is up', () => {
+  it('puts Tess on exactly one report at a time, in order', () => {
+    const carried: string[] = [];
     let state = new Map<string, Entity>();
-    let open = false;
     for (const beat of scenario03.beats) {
       state = applyOps(state, beat.ops);
-      const live = zones(state).length;
-      if (live > 1) open = true;
-      if (open) expect(live, beat.note).toBeGreaterThan(1);
+      const tess = state.get('tess');
+      const onReport = tess?.meta.match(/^triaging (VDP-9\d\d)$/)?.[1];
+      if (onReport && carried.at(-1) !== onReport) carried.push(onReport);
     }
+    expect(carried).toEqual([
+      'VDP-901',
+      'VDP-902',
+      'VDP-903',
+      'VDP-904',
+      'VDP-905',
+      'VDP-906',
+      'VDP-907',
+    ]);
+  });
+
+  it('piles six zones up behind her, because reproducing outlasts triaging', () => {
+    let peak = 0;
+    let peakAt = '';
+    let state = new Map<string, Entity>();
+    for (const beat of scenario03.beats) {
+      state = applyOps(state, beat.ops);
+      if (zones(state).length > peak) {
+        peak = zones(state).length;
+        peakAt = beat.note;
+      }
+    }
+    expect(peak).toBe(6);
+    expect(peakAt).toBe('Zone 02 cannot reproduce · zone 06 up · zone 07 requested');
+  });
+
+  it('shows all three stages of a zone at once, once the queue is flowing', () => {
+    const state = stateAt('Zone 02 cannot reproduce · zone 06 up · zone 07 requested');
+    const live = zones(state);
+
+    const empty = live.filter((z) => ![...state.values()].some((e) => e.parentId === z.id));
+    expect(empty.map((e) => e.id)).toEqual(['vera-inst-07']);
+
+    const claiming = live.filter((z) =>
+      [...state.values()].some((e) => e.parentId === z.id && e.status === 'initializing'),
+    );
+    expect(claiming.map((e) => e.id)).toEqual(['vera-inst-06']);
+
+    const reproducing = live.filter((z) =>
+      [...state.values()].some((e) => e.parentId === z.id && e.badges.includes('reproducing')),
+    );
+    expect(reproducing.map((e) => e.id)).toEqual(['vera-inst-03', 'vera-inst-04', 'vera-inst-05']);
+  });
+
+  it('drains the intake queue by one each time Tess takes a report', () => {
+    const counts: (number | null)[] = [];
+    let state = new Map<string, Entity>();
+    for (const beat of scenario03.beats) {
+      state = applyOps(state, beat.ops);
+      counts.push(state.get('vdp')?.count ?? null);
+    }
+    expect(counts.slice(0, 11)).toEqual([0, 7, 6, 5, 4, 3, 2, 1, 0, 0, 0]);
   });
 
   it('gives each zone its own report, and never the same report twice', () => {
@@ -152,7 +199,7 @@ describe('scenario-03', () => {
     }
   });
 
-  it('ends with five zones still up beside an ordinary fix host', () => {
+  it('ends with the two stuck zones still holding their slots, beside a fix host', () => {
     const entities = orderedEntities(endState());
 
     expect(countBy(entities, (e) => e.type)).toEqual({
@@ -161,14 +208,20 @@ describe('scenario-03', () => {
       'control-plane': 1,
       'model-gateway': 1,
       tess: 1,
-      'isolated-instance': 5,
-      'app-instance': 5,
-      vera: 5,
+      'isolated-instance': 4,
+      'app-instance': 4,
+      vera: 4,
       ec2: 1,
       'dev-host': 1,
       sandbox: 2,
       jim: 2,
     });
+    expect(zones(endState()).map((e) => e.id)).toEqual([
+      'vera-inst-02',
+      'vera-inst-03',
+      'vera-inst-06',
+      'vera-inst-07',
+    ]);
   });
 
   it('ends with two hands raised, one on a fault and one on a judgement call', () => {
@@ -176,8 +229,8 @@ describe('scenario-03', () => {
 
     expect(countBy(entities, (e) => e.status as Status)).toEqual({
       error: 3,
-      idle: 1,
-      working: 22,
+      idle: 2,
+      working: 18,
     });
 
     const hands = entities.filter((e) => e.hand);

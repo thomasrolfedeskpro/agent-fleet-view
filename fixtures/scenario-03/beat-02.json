@@ -87,9 +87,9 @@
     },
     {
       "parentId": "cp",
-      "meta": "six zones to raise",
+      "meta": "triaging VDP-901",
       "badges": [
-        "batch of 6"
+        "1 of 7"
       ],
       "hand": false,
       "count": null,

@@ -1,6 +1,6 @@
 {
   "id": "scenario-03",
-  "title": "Seven reports at once",
+  "title": "Seven reports, one at a time",
   "beats": [
     {
       "at": 0,
@@ -8,84 +8,80 @@
     },
     {
       "at": 6,
-      "note": "Six reports land together"
+      "note": "Seven reports land in the queue"
     },
     {
       "at": 12,
-      "note": "Tess opens the batch"
+      "note": "Tess takes VDP-901"
     },
     {
       "at": 18,
-      "note": "Four zones requested"
+      "note": "Zone 01 requested · Tess takes VDP-902"
     },
     {
-      "at": 26,
-      "note": "Four zones come up"
+      "at": 24,
+      "note": "Zone 01 comes up · zone 02 requested · Tess takes VDP-903"
     },
     {
-      "at": 32,
-      "note": "Two more zones requested"
+      "at": 30,
+      "note": "Zone 01 reproduces · zone 02 up · zone 03 requested · Tess takes VDP-904"
     },
     {
-      "at": 38,
-      "note": "The first four reproduce"
+      "at": 36,
+      "note": "Zone 02 reproduces · zone 03 up · zone 04 requested · Tess takes VDP-905"
     },
     {
-      "at": 44,
-      "note": "All six zones are up"
+      "at": 42,
+      "note": "Zone 01 returns findings · zone 04 up · zone 05 requested · Tess takes VDP-906"
     },
     {
-      "at": 52,
-      "note": "A clone fails in zone 03"
+      "at": 48,
+      "note": "Zone 01 torn down · zone 05 up · zone 06 requested · Tess takes VDP-907"
     },
     {
-      "at": 58,
-      "note": "The last two reproduce"
+      "at": 54,
+      "note": "Zone 02 cannot reproduce · zone 06 up · zone 07 requested"
     },
     {
-      "at": 64,
-      "note": "Zone 01 returns findings"
+      "at": 60,
+      "note": "Tess has emptied the queue · zone 03's clone fails · zone 07 up"
     },
     {
-      "at": 70,
-      "note": "Zone 02 cannot reproduce"
+      "at": 66,
+      "note": "Zone 07 reproduces"
     },
     {
-      "at": 76,
-      "note": "Zone 01 torn down"
-    },
-    {
-      "at": 82,
-      "note": "A seventh report arrives"
-    },
-    {
-      "at": 88,
-      "note": "Zone 07 comes up"
-    },
-    {
-      "at": 94,
+      "at": 72,
       "note": "Zone 04 returns findings"
     },
     {
-      "at": 100,
-      "note": "Zone 04 torn down, zone 07 reproduces"
+      "at": 78,
+      "note": "Zone 04 torn down"
     },
     {
-      "at": 108,
+      "at": 84,
+      "note": "Zone 05 returns findings"
+    },
+    {
+      "at": 90,
+      "note": "Zone 05 torn down · zones 02 and 03 still want a person"
+    },
+    {
+      "at": 96,
       "note": "Fixes handed to Jim"
     },
     {
-      "at": 114,
+      "at": 102,
       "note": "The fix host fills"
     },
     {
-      "at": 120,
+      "at": 108,
       "note": "Jim starts on the first fixes"
     },
     {
-      "at": 128,
+      "at": 114,
       "note": "Hold"
     }
   ],
-  "count": 21
+  "count": 20
 }

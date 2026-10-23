@@ -28,6 +28,10 @@ right now, across everything, with a click through to the tool that manages it.
 
 ![Six untrusted zones at once](docs/images/untrusted-zones.png)
 
+Six zones at once, and every stage visible at the same moment: zone 07 empty and locking down,
+zone 06 claiming its pair, zones 03–05 reproducing, zone 02 stopped with its hand up. One Tess
+raised all of them, one at a time.
+
 ## Scenarios
 
 The simulator is the only producer. Pick one in the debug panel, or click any beat to jump.
@@ -36,7 +40,7 @@ The simulator is the only producer. Pick one in the debug panel, or click any be
 | --- | --- | --- | --- | --- |
 | `scenario-01` | A VDP report through Tess, Vera and Jim | 21 | 11 entities | One story end to end: triage, an isolated zone created and destroyed, pairs stacking, a freed slot |
 | `scenario-02` | A busy afternoon | 18 | 137 entities | Density: 10 instances × 6 pairs, 4 faults, slot recycling |
-| `scenario-03` | Seven reports at once | 21 | 26 entities | Fan-out: six untrusted zones side by side, torn down out of step, a fault and a judgement call on one floor |
+| `scenario-03` | Seven reports, one at a time | 20 | 23 entities | A serial bottleneck: Tess triages one report at a time, but reproducing outlasts triaging, so six zones pile up behind her |
 
 ![Density](docs/images/density.png)
 
