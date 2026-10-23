@@ -40,6 +40,13 @@ const DOT_SPACING = 22;
 /** However far the floor is dragged, this much of it stays in the pane. */
 const KEEP_VISIBLE = 140;
 
+/**
+ * How far the pointer travels before a press counts as a drag rather than a click. Capturing
+ * the pointer retargets the click that follows, so capturing on press alone makes every card
+ * unclickable; nothing is captured until the pointer has actually gone somewhere.
+ */
+const DRAG_THRESHOLD = 4;
+
 const label: React.CSSProperties = {
   color: MUTED,
   fontSize: 11,
@@ -170,7 +177,12 @@ export function Floor(): React.ReactElement {
    * the repack after a teardown.
    */
   const camera = useRef({ x: 0, y: 0, scale: 1 });
-  const drag = useRef<{ x: number; y: number } | null>(null);
+  const drag = useRef<{
+    x: number;
+    y: number;
+    from: { x: number; y: number };
+    held: boolean;
+  } | null>(null);
   const pane = useRef<HTMLDivElement>(null);
   const viewport = useRef<HTMLDivElement>(null);
   const content = useRef<HTMLDivElement>(null);
@@ -211,15 +223,28 @@ export function Floor(): React.ReactElement {
 
   const onPointerDown = (event: React.PointerEvent): void => {
     if (event.button !== 0) return;
-    // Captured, so a drag that leaves the pane keeps tracking instead of stopping dead.
-    event.currentTarget.setPointerCapture(event.pointerId);
     const { x, y } = camera.current;
-    drag.current = { x: event.clientX - x, y: event.clientY - y };
-    if (viewport.current) viewport.current.style.cursor = 'grabbing';
+    drag.current = {
+      x: event.clientX - x,
+      y: event.clientY - y,
+      from: { x: event.clientX, y: event.clientY },
+      held: false,
+    };
   };
   const onPointerMove = (event: React.PointerEvent): void => {
-    if (!drag.current) return;
-    place(event.clientX - drag.current.x, event.clientY - drag.current.y, camera.current.scale);
+    const state = drag.current;
+    if (!state) return;
+    if (!state.held) {
+      const far =
+        Math.abs(event.clientX - state.from.x) > DRAG_THRESHOLD ||
+        Math.abs(event.clientY - state.from.y) > DRAG_THRESHOLD;
+      if (!far) return;
+      // Held from here, so a drag that leaves the pane keeps tracking instead of stopping dead.
+      event.currentTarget.setPointerCapture(event.pointerId);
+      state.held = true;
+      if (viewport.current) viewport.current.style.cursor = 'grabbing';
+    }
+    place(event.clientX - state.x, event.clientY - state.y, camera.current.scale);
   };
   const endDrag = (event: React.PointerEvent): void => {
     if (event.currentTarget.hasPointerCapture(event.pointerId)) {
