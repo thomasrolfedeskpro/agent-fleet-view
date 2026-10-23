@@ -81,7 +81,15 @@ function Half({ entity, selected }: { entity: Entity; selected: boolean }): Reac
   );
 }
 
-function Row({ pair, selectedId }: { pair: Pair; selectedId: string | null }): React.ReactElement {
+function Row({
+  pair,
+  index,
+  selectedId,
+}: {
+  pair: Pair;
+  index: number;
+  selectedId: string | null;
+}): React.ReactElement {
   const { lead, partner } = pair;
   const selected = selectedId === lead.id || (partner ? selectedId === partner.id : false);
   const wantsPerson = lead.hand || (partner?.hand ?? false);
@@ -89,6 +97,7 @@ function Row({ pair, selectedId }: { pair: Pair; selectedId: string | null }): R
   return (
     <m.button
       type="button"
+      custom={index}
       variants={rowMotion}
       initial="hidden"
       animate="shown"
@@ -226,15 +235,16 @@ export function Card({
         )}
       </button>
 
-      {rows.length > 0 ? (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          <AnimatePresence initial={false}>
-            {rows.map((pair) => (
-              <Row key={pair.lead.id} pair={pair} selectedId={selectedId} />
-            ))}
-          </AnimatePresence>
-        </div>
-      ) : null}
+      {/* Mounted whether or not it holds anything. `initial={false}` is read when this element
+          mounts, so hanging it off `rows.length` would make the first run into an empty host —
+          a cloud instance filling — the one arrival that never animates. */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        <AnimatePresence initial={false}>
+          {rows.map((pair, index) => (
+            <Row key={pair.lead.id} pair={pair} index={index} selectedId={selectedId} />
+          ))}
+        </AnimatePresence>
+      </div>
 
       {rows.length === 0 && !entity.persistent ? (
         <div

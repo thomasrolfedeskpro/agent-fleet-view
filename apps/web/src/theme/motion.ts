@@ -26,11 +26,28 @@ export const cardMotion: Variants = {
   gone: { opacity: 0, scale: 0.97, transition: leave },
 };
 
-/** A row claims a slot that was already there, so it fades in place rather than travelling. */
+/**
+ * A host filling is a run of slots being claimed, not one event. Rows arrive in spawn order a
+ * beat apart from each other so the eye reads a sequence; six of them is the widest card there is.
+ */
+export const STAGGER_MS = 45;
+const MAX_STAGGERED = 5;
+
+export const staggerFor = (index: number): number =>
+  (Math.min(index, MAX_STAGGERED) * STAGGER_MS) / 1000;
+
+/**
+ * A row claims a slot that was already there, so it slides in from its own left rather than
+ * travelling across the card. `custom` is the row's position, which sets its place in the run.
+ */
 export const rowMotion: Variants = {
-  hidden: { opacity: 0, y: 3 },
-  shown: { opacity: 1, y: 0, transition: arrive },
-  gone: { opacity: 0, transition: leave },
+  hidden: { opacity: 0, x: -6 },
+  shown: (index: number) => ({
+    opacity: 1,
+    x: 0,
+    transition: { ...arrive, delay: staggerFor(index) },
+  }),
+  gone: { opacity: 0, x: -4, transition: leave },
 };
 
 /** Cards slide to a freed cell. Rows never move, so they are not given this. */

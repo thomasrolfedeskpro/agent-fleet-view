@@ -100,6 +100,7 @@ Biome 2.5, Vitest 4. The floor is plain DOM — PixiJS was planned and dropped. 
 | --- | --- | --- |
 | Status colour | CSS transition | 350ms |
 | A card or row arriving | Motion variants | 320ms |
+| A host filling with pairs | Motion, staggered in spawn order | 45ms apart, 620ms in total |
 | A card or row torn down | Motion `AnimatePresence` | 220ms |
 | Cards repacking after a teardown | Motion `layout="position"` | 300ms |
 | A raised hand | CSS keyframe | a 14% breath every 3.2s |

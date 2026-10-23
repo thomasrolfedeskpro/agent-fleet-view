@@ -7,6 +7,7 @@ import {
   leave,
   reflow,
   rowMotion,
+  staggerFor,
   TINT_MS,
 } from './motion.js';
 
@@ -33,10 +34,25 @@ describe('floor timings', () => {
   });
 
   it('land every variant on a resting state of full opacity and no offset', () => {
-    for (const variants of [cardMotion, rowMotion]) {
-      expect(variants.shown).toMatchObject({ opacity: 1, y: 0 });
-      expect(variants.hidden).toMatchObject({ opacity: 0 });
-      expect(variants.gone).toMatchObject({ opacity: 0 });
-    }
+    expect(cardMotion.shown).toMatchObject({ opacity: 1, y: 0 });
+    expect(cardMotion.hidden).toMatchObject({ opacity: 0 });
+    expect(cardMotion.gone).toMatchObject({ opacity: 0 });
+
+    const shown = rowMotion.shown as (index: number) => Record<string, unknown>;
+    expect(shown(0)).toMatchObject({ opacity: 1, x: 0 });
+    expect(rowMotion.hidden).toMatchObject({ opacity: 0 });
+    expect(rowMotion.gone).toMatchObject({ opacity: 0 });
+  });
+
+  it('run the longest host fill inside one tick, stagger included', () => {
+    const SLOTS = 6;
+    const last = staggerFor(SLOTS - 1) * 1000 + ARRIVE_MS;
+    expect(last).toBeLessThan(TICK_MS);
+  });
+
+  it('stop staggering past the widest card, so one late row never waits long', () => {
+    expect(staggerFor(0)).toBe(0);
+    expect(staggerFor(5)).toBeCloseTo(staggerFor(60));
+    expect(staggerFor(60) * 1000).toBeLessThan(ARRIVE_MS);
   });
 });
