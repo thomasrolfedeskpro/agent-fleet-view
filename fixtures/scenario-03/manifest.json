@@ -1,0 +1,91 @@
+{
+  "id": "scenario-03",
+  "title": "Seven reports at once",
+  "beats": [
+    {
+      "at": 0,
+      "note": "Quiet floor"
+    },
+    {
+      "at": 6,
+      "note": "Six reports land together"
+    },
+    {
+      "at": 12,
+      "note": "Tess opens the batch"
+    },
+    {
+      "at": 18,
+      "note": "Four zones requested"
+    },
+    {
+      "at": 26,
+      "note": "Four zones come up"
+    },
+    {
+      "at": 32,
+      "note": "Two more zones requested"
+    },
+    {
+      "at": 38,
+      "note": "The first four reproduce"
+    },
+    {
+      "at": 44,
+      "note": "All six zones are up"
+    },
+    {
+      "at": 52,
+      "note": "A clone fails in zone 03"
+    },
+    {
+      "at": 58,
+      "note": "The last two reproduce"
+    },
+    {
+      "at": 64,
+      "note": "Zone 01 returns findings"
+    },
+    {
+      "at": 70,
+      "note": "Zone 02 cannot reproduce"
+    },
+    {
+      "at": 76,
+      "note": "Zone 01 torn down"
+    },
+    {
+      "at": 82,
+      "note": "A seventh report arrives"
+    },
+    {
+      "at": 88,
+      "note": "Zone 07 comes up"
+    },
+    {
+      "at": 94,
+      "note": "Zone 04 returns findings"
+    },
+    {
+      "at": 100,
+      "note": "Zone 04 torn down, zone 07 reproduces"
+    },
+    {
+      "at": 108,
+      "note": "Fixes handed to Jim"
+    },
+    {
+      "at": 114,
+      "note": "The fix host fills"
+    },
+    {
+      "at": 120,
+      "note": "Jim starts on the first fixes"
+    },
+    {
+      "at": 128,
+      "note": "Hold"
+    }
+  ],
+  "count": 21
+}
