@@ -1,5 +1,7 @@
 import type { Entity } from '@fleet/schema';
+import { AnimatePresence, m } from 'motion/react';
 import { store } from '../store/index.js';
+import { cardMotion, reflow, rowMotion } from '../theme/motion.js';
 import {
   ATTENTION,
   ATTENTION_EDGE,
@@ -30,6 +32,11 @@ const dot = (color: string, size = 7): React.CSSProperties => ({
   flex: 'none',
 });
 
+/** A status dot changes colour in place; it never arrives or leaves, so CSS eases it. */
+const Dot = ({ color, size = 7 }: { color: string; size?: number }): React.ReactElement => (
+  <span className="fleet-tint" style={dot(color, size)} />
+);
+
 /**
  * Pairs come from `pairWith`, stated by the producer. Anything unpaired takes a row of its own,
  * and declaration order — which is spawn order — decides the order of the rows.
@@ -55,8 +62,9 @@ export function pairsOf(children: Entity[]): Pair[] {
 function Half({ entity, selected }: { entity: Entity; selected: boolean }): React.ReactElement {
   return (
     <>
-      <span style={dot(STATUS_COLOR[entity.status], 6)} />
+      <Dot color={STATUS_COLOR[entity.status]} size={6} />
       <span
+        className="fleet-tint"
         style={{
           flex: 1,
           minWidth: 0,
@@ -79,8 +87,12 @@ function Row({ pair, selectedId }: { pair: Pair; selectedId: string | null }): R
   const wantsPerson = lead.hand || (partner?.hand ?? false);
 
   return (
-    <button
+    <m.button
       type="button"
+      variants={rowMotion}
+      initial="hidden"
+      animate="shown"
+      exit="gone"
       onClick={() => store.select(selected ? null : (partner ?? lead).id)}
       style={{
         display: 'flex',
@@ -111,8 +123,8 @@ function Row({ pair, selectedId }: { pair: Pair; selectedId: string | null }): R
           <Hand size={12} />
         </span>
       ) : null}
-      <span style={dot(STATUS_COLOR[(partner ?? lead).status], 6)} />
-    </button>
+      <Dot color={STATUS_COLOR[(partner ?? lead).status]} size={6} />
+    </m.button>
   );
 }
 
@@ -135,7 +147,15 @@ export function Card({
   const selected = selectedId === entity.id;
 
   return (
-    <section
+    <m.section
+      // Position only. Plain `layout` animates height too, which scales the card's own text
+      // for the length of the transition every time a row is added.
+      layout="position"
+      variants={cardMotion}
+      initial="hidden"
+      animate="shown"
+      exit="gone"
+      transition={reflow}
       style={{
         width: CARD_W,
         padding: 14,
@@ -174,7 +194,11 @@ export function Card({
           </span>
         </span>
         {entity.count === null ? null : (
-          <span style={{ fontSize: 16, fontWeight: 600, fontVariantNumeric: 'tabular-nums' }}>
+          <span
+            key={entity.count}
+            className="fleet-tick"
+            style={{ fontSize: 16, fontWeight: 600, fontVariantNumeric: 'tabular-nums' }}
+          >
             {entity.count}
           </span>
         )}
@@ -198,15 +222,17 @@ export function Card({
             <Hand />
           </span>
         ) : (
-          <span style={dot(STATUS_COLOR[entity.status], 8)} />
+          <Dot color={STATUS_COLOR[entity.status]} size={8} />
         )}
       </button>
 
       {rows.length > 0 ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          {rows.map((pair) => (
-            <Row key={pair.lead.id} pair={pair} selectedId={selectedId} />
-          ))}
+          <AnimatePresence initial={false}>
+            {rows.map((pair) => (
+              <Row key={pair.lead.id} pair={pair} selectedId={selectedId} />
+            ))}
+          </AnimatePresence>
         </div>
       ) : null}
 
@@ -226,6 +252,6 @@ export function Card({
           Nothing running
         </div>
       ) : null}
-    </section>
+    </m.section>
   );
 }

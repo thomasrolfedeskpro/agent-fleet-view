@@ -127,6 +127,7 @@ export function DetailDialog(): React.ReactElement | null {
         type="button"
         data-testid="detail-backdrop"
         aria-label="Close details"
+        className="fleet-backdrop"
         onClick={close}
         style={{
           position: 'absolute',
@@ -141,6 +142,7 @@ export function DetailDialog(): React.ReactElement | null {
         ref={panel}
         data-testid="detail"
         data-entity={entity.id}
+        className="fleet-dialog"
         role="dialog"
         aria-modal="true"
         aria-label={`${entity.label} — details`}

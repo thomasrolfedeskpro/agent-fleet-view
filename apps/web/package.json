@@ -13,6 +13,7 @@
   "dependencies": {
     "@fleet/layout": "workspace:*",
     "@fleet/schema": "workspace:*",
+    "motion": "^14.6.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6"
   },

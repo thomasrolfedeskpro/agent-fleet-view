@@ -91,9 +91,22 @@ fixtures/            golden snapshots per scenario + manifest.json
 - **The renderer knows no domain.** It draws containers, rows, pairs, statuses and links. "Jim", "Vera" and "sandbox" are producer wording.
 - **Golden fixtures are the test oracle.** Every scenario replays byte for byte against `fixtures/`, so a change to the data is visible in a diff.
 - **Bands fall out of the entity**, so a producer never has to know what its neighbours are.
+- **Motion is a second channel, not decoration.** Arrivals, teardowns and colour changes ease so a change is noticed; nothing lasts longer than one tick.
 
-Stack: pnpm workspaces, Node ≥ 22, TypeScript 6 strict, Zod 4, React 19, Vite 8, `ws`, Biome 2.5,
-Vitest 4. The floor is plain DOM — PixiJS was planned and dropped. 233 tests across 13 files.
+Stack: pnpm workspaces, Node ≥ 22, TypeScript 6 strict, Zod 4, React 19, Vite 8, `ws`, Motion 14,
+Biome 2.5, Vitest 4. The floor is plain DOM — PixiJS was planned and dropped. 240 tests across 14 files.
+
+| Change | Animated by | Timing |
+| --- | --- | --- |
+| Status colour | CSS transition | 350ms |
+| A card or row arriving | Motion variants | 320ms |
+| A card or row torn down | Motion `AnimatePresence` | 220ms |
+| Cards repacking after a teardown | Motion `layout="position"` | 300ms |
+| A raised hand | CSS keyframe | a 14% breath every 3.2s |
+| Counts, the freshness dot | CSS keyframe | 240ms, 620ms |
+
+`prefers-reduced-motion` turns all of it off — Motion through `MotionConfig reducedMotion="user"`,
+CSS through a media query.
 
 ## What this POC owes the Linear project
 

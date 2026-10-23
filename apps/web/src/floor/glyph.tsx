@@ -55,6 +55,7 @@ export function Glyph({
   const mark = Math.round(size / 2);
   return (
     <span
+      className="fleet-tint"
       style={{
         width: size,
         height: size,
@@ -66,6 +67,7 @@ export function Glyph({
       }}
     >
       <svg
+        className="fleet-tint"
         width={mark}
         height={mark}
         viewBox="0 0 16 16"
@@ -86,6 +88,7 @@ export function Glyph({
 export function Hand({ size = 14 }: { size?: number }): React.ReactElement {
   return (
     <svg
+      className="fleet-hand"
       width={size}
       height={size}
       viewBox="0 0 16 16"

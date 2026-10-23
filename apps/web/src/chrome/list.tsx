@@ -111,6 +111,7 @@ function RowItem({
           />
         ) : null}
         <span
+          className="fleet-tint"
           style={{
             width: 7,
             height: 7,

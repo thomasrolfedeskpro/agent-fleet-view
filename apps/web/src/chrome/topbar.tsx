@@ -80,6 +80,8 @@ function Tally({
     >
       <span style={{ ...dot(color, 7), alignSelf: 'center' }} />
       <span
+        key={value}
+        className="fleet-tick"
         style={{
           fontSize: 18,
           fontWeight: 600,

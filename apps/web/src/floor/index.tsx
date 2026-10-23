@@ -1,4 +1,5 @@
 import type { Band, Entity } from '@fleet/schema';
+import { AnimatePresence } from 'motion/react';
 import { useCallback, useRef, useState } from 'react';
 import { childrenOf, filtered, inBand, isFiltering, store, useStore } from '../store/index.js';
 import {
@@ -128,14 +129,16 @@ function BandRow({
           background: ephemeral ? 'rgba(255,255,255,0.42)' : 'transparent',
         }}
       >
-        {entities.map((entity) => (
-          <Card
-            key={entity.id}
-            entity={entity}
-            contents={childrenFor(entity.id)}
-            selectedId={selectedId}
-          />
-        ))}
+        <AnimatePresence initial={false}>
+          {entities.map((entity) => (
+            <Card
+              key={entity.id}
+              entity={entity}
+              contents={childrenFor(entity.id)}
+              selectedId={selectedId}
+            />
+          ))}
+        </AnimatePresence>
       </div>
     </section>
   );

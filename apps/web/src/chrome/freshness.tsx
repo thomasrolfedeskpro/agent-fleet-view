@@ -50,6 +50,7 @@ const readout: React.CSSProperties = {
 export function FreshnessReadout(): React.ReactElement {
   const configured = useStore((s) => s.source);
   const connection = useStore((s) => s.connection);
+  const seq = useStore((s) => s.snapshot?.seq);
   const { ageMs, band } = useFreshness();
   // A dropped socket must not keep claiming to be live; the age alone would not say so.
   const source = connection === 'open' ? configured : 'offline';
@@ -74,7 +75,9 @@ export function FreshnessReadout(): React.ReactElement {
       title={`last snapshot ${formatAge(ageMs)} ago`}
       style={readout}
     >
-      <span style={dot(FRESHNESS_COLOR[band], 7)} />
+      {/* Keyed on seq so the keyframe restarts: on a floor where nothing moved, this is the
+          only thing that says the feed is still arriving. */}
+      <span key={seq} className="fleet-beat fleet-tint" style={dot(FRESHNESS_COLOR[band], 7)} />
       <span>
         <strong style={{ color: INK }}>{source}</strong>
         {` · updated ${formatAge(ageMs)} ago`}

@@ -44,3 +44,108 @@ button,
 input {
   font: inherit;
 }
+
+/*
+ * Colour is the one change that arrives without anything appearing or leaving, so it eases in
+ * CSS rather than through the animation library. 350ms matches ARRIVE_MS in theme/motion.ts.
+ */
+.fleet-tint {
+  transition:
+    background-color 350ms ease,
+    color 350ms ease,
+    border-color 350ms ease;
+}
+
+/* The one mark meant to catch an eye that is not looking at the screen. */
+@keyframes fleet-breathe {
+  0%,
+  86%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  93% {
+    transform: scale(1.14);
+    opacity: 0.82;
+  }
+}
+
+.fleet-hand {
+  animation: fleet-breathe 3.2s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* A snapshot landed. Proof the feed is alive on a floor where nothing else moved. */
+@keyframes fleet-beat {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.55);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.fleet-beat {
+  animation: fleet-beat 620ms ease-out;
+}
+
+@keyframes fleet-rise {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* A count that ticks 7 -> 6 should read as a change, not as a different number. */
+.fleet-tick {
+  animation: fleet-rise 240ms ease-out;
+}
+
+@keyframes fleet-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.fleet-dialog {
+  animation: fleet-dialog-in 180ms ease-out;
+}
+
+.fleet-backdrop {
+  animation: fleet-fade-in 180ms ease-out;
+}
+
+@keyframes fleet-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fleet-hand,
+  .fleet-beat,
+  .fleet-tick,
+  .fleet-dialog,
+  .fleet-backdrop {
+    animation: none;
+  }
+
+  .fleet-tint {
+    transition: none;
+  }
+}
