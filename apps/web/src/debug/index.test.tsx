@@ -175,7 +175,20 @@ describe('beat list', () => {
     ]);
   });
 
-  it('jumps to the beat clicked', () => {
+  it('starts the picked scenario first when the server is running another', () => {
+    act(() => store.onSnapshot(snapshotAt(4, 'scenario-01')));
+    pickScenario('scenario-02');
+    const first = beatButtons()[0];
+    if (!first) throw new Error('no beat');
+    click(first);
+    expect(sent).toEqual([
+      { cmd: 'start', scenarioId: 'scenario-02' },
+      { cmd: 'jumpToBeat', beat: 0 },
+    ]);
+  });
+
+  it('jumps straight to the beat clicked once that scenario is the one running', () => {
+    act(() => store.onSnapshot(snapshotAt(0, 'scenario-01')));
     const third = beatButtons()[2];
     if (!third) throw new Error('no third beat');
     click(third);

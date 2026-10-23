@@ -184,6 +184,13 @@ function Beats({ scenarios, scenarioId }: Omit<ControlsProps, 'onPick'>): React.
     list.current?.children[current]?.scrollIntoView?.({ block: 'nearest' });
   }, [current]);
 
+  // A jump names a beat index and not a scenario, so a beat belonging to one the server is not
+  // running would land on whatever it is running. Start the picked scenario first.
+  const jump = (beat: number): void => {
+    if (snapshotScenario !== scenarioId) store.send({ cmd: 'start', scenarioId });
+    store.send({ cmd: 'jumpToBeat', beat });
+  };
+
   return (
     <div className="dbg-beats">
       <div className="dbg-beats-head">
@@ -200,7 +207,7 @@ function Beats({ scenarios, scenarioId }: Omit<ControlsProps, 'onPick'>): React.
                 type="button"
                 className="dbg-beat"
                 aria-current={i === current}
-                onClick={() => store.send({ cmd: 'jumpToBeat', beat: i })}
+                onClick={() => jump(i)}
               >
                 <span className="dbg-beat-at">{clock(b.at)}</span>
                 <span className="dbg-beat-note">{b.note}</span>
